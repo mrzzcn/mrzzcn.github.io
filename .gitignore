@@ -29,8 +29,7 @@ nbproject
 *.sublime-workspace
 .idea
 #Microsoft Visual Studio Project files
-*.sln
-*.suo
+
 
 # Komodo
 *.komodoproject
