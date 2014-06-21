@@ -310,14 +310,10 @@
 	#header-wrapper
 	{
 		background: #333333;
-	    position: fixed;
-	    width: 100%;
-	    top: 0px;
 	}
 
 	#header
 	{
-	    
 		position: relative;
 		padding: 3em 0em;
 	}
@@ -367,11 +363,7 @@
 		float: left;
 		text-align: center;
 	}
-	#menu li:hover a {
-	    
-		background: #009E2D;
-		color: #FFF;
-	}
+	
 	#menu li a, #menu li span
 	{
 		padding: 1em 1.5em;
@@ -403,7 +395,6 @@
 
 	#banner
 	{
-        margin-top: 33px;
 		overflow: hidden;
 		padding: 7em 0em 5em 0em;
 		background: #202020;
@@ -440,7 +431,7 @@
 
 	#page
 	{
-		padding: 7em 0em;
+		padding: 5em 0em;
 		text-align: center;
 	}
 	
@@ -506,7 +497,7 @@
 	#featured
 	{
 		overflow: hidden;
-		padding: 7em 0em;
+		padding: 5em 0em;
 		background: #009E2D;
 		color: rgba(255,255,255,.8);
 		text-align: center;
@@ -555,7 +546,7 @@
 	#extra
 	{
 		overflow: hidden;
-		padding: 7em 0em;
+		padding: 5em 0em;
 	}
 	
 	#extra .title
