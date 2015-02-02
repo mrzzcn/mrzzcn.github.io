@@ -6,3 +6,6 @@ Creating a new branch is quick.
 Creating a new branch is quick &(and) simple.
 
 add merge content
+
+//fix bug 101
+some code here.
