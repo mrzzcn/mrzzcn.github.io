@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/imgs/avatar.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/imgs/favicon.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/imgs/favicon.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/imgs/logo.png?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="第一次写读书笔记，一是加深自己的印象，二来方便以后查阅，毕竟纸张没有搜索功能。如果你也喜欢这篇文章欢迎转载，但本文代码版权属于《JavaScript语言精粹》，小部分代码扩充是为了演示代码效果。">
+<meta name="keywords" content="Javascript,Douglas-Crockford,最佳实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript The Good Parts">
+<meta property="og:url" content="http://mrzzcn.github.io/2015/05/24/JavaScript-The-Good-Parts/index.html">
+<meta property="og:site_name" content="随笔">
+<meta property="og:description" content="第一次写读书笔记，一是加深自己的印象，二来方便以后查阅，毕竟纸张没有搜索功能。如果你也喜欢这篇文章欢迎转载，但本文代码版权属于《JavaScript语言精粹》，小部分代码扩充是为了演示代码效果。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-04-27T01:43:35.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript The Good Parts">
+<meta name="twitter:description" content="第一次写读书笔记，一是加深自己的印象，二来方便以后查阅，毕竟纸张没有搜索功能。如果你也喜欢这篇文章欢迎转载，但本文代码版权属于《JavaScript语言精粹》，小部分代码扩充是为了演示代码效果。">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="随笔" type="application/atom+xml"/>
+
+
+
+
+  <link rel="canonical" href="http://mrzzcn.github.io/2015/05/24/JavaScript-The-Good-Parts/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>JavaScript The Good Parts | 随笔</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随笔</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">技术 | 生活</h1>
+      
+    
+    
+      <a>
+        <img class="custom-logo-image" src="/imgs/logo.png" alt="随笔"/>
+      </a>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br/>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br/>Schedule</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <a href="https://github.com/mrzzcn" class="github-corner" title="Follow me" aria-label="Follow me" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2015/05/24/JavaScript-The-Good-Parts/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jack"/>
+      <meta itemprop="description" content="屈子泪，离歌起，力拔山兮"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随笔"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">JavaScript The Good Parts
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: May 24 2015 17:30:57" itemprop="dateCreated datePublished" datetime="2015-05-24T17:30:57+08:00">May 24 2015</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: Apr 27 2019 09:43:35" itemprop="dateModified" datetime="2019-04-27T09:43:35+08:00">Apr 27 2019</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Notes/" itemprop="url" rel="index"><span itemprop="name">Notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            <div class="post-description">第一次写读书笔记，一是加深自己的印象，二来方便以后查阅，毕竟纸张没有搜索功能。如果你也喜欢这篇文章欢迎转载，但本文代码版权属于《JavaScript语言精粹》，小部分代码扩充是为了演示代码效果。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="使用一个method-方法定义新方法"><a href="#使用一个method-方法定义新方法" class="headerlink" title="使用一个method 方法定义新方法"></a>使用一个method 方法定义新方法</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.method = <span class="function"><span class="keyword">function</span> (<span class="params">name, func</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.prototype[name]) &#123;</span><br><span class="line">        <span class="keyword">this</span>.prototype[name] = func;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="根据数字的正负来判断是使用Math-ceiling-还是Math-floor"><a href="#根据数字的正负来判断是使用Math-ceiling-还是Math-floor" class="headerlink" title="根据数字的正负来判断是使用Math.ceiling 还是Math.floor"></a>根据数字的正负来判断是使用Math.ceiling 还是Math.floor</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.method(<span class="string">"integer"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>[<span class="keyword">this</span> &lt; <span class="number">0</span> ? <span class="string">'ceil'</span> : <span class="string">'floor'</span>](<span class="keyword">this</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<hr>
+<h5 id="移除字符串首尾的空白"><a href="#移除字符串首尾的空白" class="headerlink" title="移除字符串首尾的空白"></a>移除字符串首尾的空白</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>.method(<span class="string">"trim"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.replace(<span class="regexp">/^\s+|\s+$/g</span>, <span class="string">''</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="闭包演示"><a href="#闭包演示" class="headerlink" title="闭包演示"></a>闭包演示</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        increment: <span class="function"><span class="keyword">function</span> (<span class="params">inc</span>) </span>&#123;</span><br><span class="line">            value += <span class="keyword">typeof</span> inc === <span class="string">"number"</span> ? inc : <span class="number">1</span>;</span><br><span class="line">        &#125;,</span><br><span class="line">        getValue: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="缓存中间计算结果-斐波纳挈数组"><a href="#缓存中间计算结果-斐波纳挈数组" class="headerlink" title="缓存中间计算结果 - 斐波纳挈数组"></a>缓存中间计算结果 - 斐波纳挈数组</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义</span></span><br><span class="line"><span class="keyword">var</span> memoizer = <span class="function"><span class="keyword">function</span> (<span class="params">memo, formula</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> recur = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> result = memo[n];</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> result !== <span class="string">'number'</span>) &#123;</span><br><span class="line">            result = formula(recur, n);</span><br><span class="line">            memo[n] = result;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> recur;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用</span></span><br><span class="line"><span class="keyword">var</span> fibonacci = memoizer([<span class="number">0</span>, <span class="number">1</span>], <span class="function"><span class="keyword">function</span> (<span class="params">recur, n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> recur(n<span class="number">-1</span>) + recur(n - <span class="number">2</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt;= <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"%d : %d"</span>, i, fibonacci(i));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 扩展用法 阶乘</span></span><br><span class="line"><span class="keyword">var</span> factorial = memoizer([<span class="number">1</span>, <span class="number">1</span>], <span class="function"><span class="keyword">function</span> (<span class="params">recur, n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> n * recur (n - <span class="number">1</span>)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"%d : %d"</span>, i, factorial(i));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="如何实现继承-函数化"><a href="#如何实现继承-函数化" class="headerlink" title="如何实现继承 - 函数化"></a>如何实现继承 - 函数化</h5><ol>
+<li>创建一个对象</li>
+<li>有选择地定义私有实例变量和方法。这些就是函数中通过<code>var</code>语句定义的普通变量</li>
+<li>给这个新对象扩充方法。这些方法拥有特权去访问参数，以及上一步中定义的变量。</li>
+<li>返回这个新对象</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里是一个函数化构造器的伪代码模板（加粗的文本表示强调）：</span></span><br><span class="line"><span class="keyword">var</span> **<span class="keyword">constructor</span>** = function (spec, my) &#123;</span><br><span class="line">    <span class="comment">// 代码快内部不知道怎么加粗，哪位大神指点一下</span></span><br><span class="line">    <span class="keyword">var</span> that, **其他私有变量**;</span><br><span class="line">    my = my || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// **把共享的变量和函数添加到my中**</span></span><br><span class="line"></span><br><span class="line">    that = &#123;</span><br><span class="line">        name: <span class="string">"**一个新对象**"</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// **给that添加特权方法**</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> that;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// spec 对象包含构造器需要构造一个新实例的所哟信息。spec 的内容可能会被复制到私有变量中，或者被其他函数改变，或者方法可以在需要的时候访问spec的信息。（一个简化的方式是替换spec为一个单一的值。当构造对象过程中并不需要整个spec对象的时候，这是有用的。）</span></span><br><span class="line"><span class="comment">// my 对象是一个为继承链中的构造器提供秘密共享的容器。my对象可以选择性地使用。如果没有传入一个my对象，那么会创建一个my对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// demo</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> mammal = <span class="function"><span class="keyword">function</span> (<span class="params">spec</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> that = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    that.get_name = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> spec.name;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    that.says = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> spec.saying || <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> that;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> cat = <span class="function"><span class="keyword">function</span> (<span class="params">spec</span>) </span>&#123;</span><br><span class="line">    spec.saying = spec.saying || <span class="string">'meow'</span>;</span><br><span class="line">    <span class="keyword">var</span> that = mammal(spec);</span><br><span class="line">    that.purr = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> i, s = <span class="string">''</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i += <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s) &#123;</span><br><span class="line">                s += <span class="string">"-"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            s += <span class="string">"r"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;;</span><br><span class="line">    that.get_name = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> that.says() + <span class="string">" "</span> + spec.name + <span class="string">" "</span> + that.says();</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> that;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myCat = cat(&#123;<span class="attr">name</span>: <span class="string">"Henrietta"</span>&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="函数化模式还提供了一个处理父类方法的方法。我们会构造一个superior方法，它取得一个方法名并返回调用那个方法的函数。该函数会调用原来的方法，尽管属性已经变化了。"><a href="#函数化模式还提供了一个处理父类方法的方法。我们会构造一个superior方法，它取得一个方法名并返回调用那个方法的函数。该函数会调用原来的方法，尽管属性已经变化了。" class="headerlink" title="函数化模式还提供了一个处理父类方法的方法。我们会构造一个superior方法，它取得一个方法名并返回调用那个方法的函数。该函数会调用原来的方法，尽管属性已经变化了。"></a>函数化模式还提供了一个处理父类方法的方法。我们会构造一个superior方法，它取得一个方法名并返回调用那个方法的函数。该函数会调用原来的方法，尽管属性已经变化了。</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.method(<span class="string">'superior'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> that = <span class="keyword">this</span>,</span><br><span class="line">        method = that[name];</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> method.apply(that, <span class="built_in">arguments</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>让我们在coolcat上试验一下，coolcat就像cat一样，除了它有一个更酷的调用父类方法的get_name方法。它只需要一点点的准备工作。我们会声明一个super_get_name变量，并且把调用superior方法所返回的结果赋值给它。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> coolcat = <span class="function"><span class="keyword">function</span> (<span class="params">spec</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> that = cat(spec),</span><br><span class="line">        super_get_name = that.superior(<span class="string">'get_name'</span>);</span><br><span class="line">    that.get_name = <span class="function"><span class="keyword">function</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'like '</span> + super_get_name() + <span class="string">' baby'</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> that;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myCoolCat = coolcat(&#123;<span class="attr">name</span>: <span class="string">'Bix'</span>&#125;);</span><br><span class="line"><span class="keyword">var</span> name = myCoolCat.get_name();</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// "like meow Bix meow baby"</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="部件"><a href="#部件" class="headerlink" title="部件"></a>部件</h5><p>我们可以从一套部件中把对象组装出来。例如，我们可以构造一个给任何对象添加简单事件处理特性的函数。他会给对象添加一个<code>on</code>方法、一个<code>fire</code>方法和一个私有的事件注册表对象：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> eventuality = <span class="function"><span class="keyword">function</span> (<span class="params">that</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> registry = &#123;&#125;;</span><br><span class="line">    that.fire = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 在一个对象上触发一个事件。该事件可以是一个包含事件名称的字符串</span></span><br><span class="line">        <span class="comment">// 或者是一个拥有包含事件名称的 type 属性的对象。</span></span><br><span class="line">        <span class="comment">// 通过'on'方法注册的事件处理程序中匹配事件名称的函数将被调用。</span></span><br><span class="line">        <span class="keyword">var</span> array,</span><br><span class="line">            func,</span><br><span class="line">            handler,</span><br><span class="line">            i,</span><br><span class="line">            type = <span class="keyword">typeof</span> event === <span class="string">'string'</span> ? event : event.type;</span><br><span class="line">        <span class="keyword">if</span> (registry.hasOwnProperty(type)) &#123;</span><br><span class="line">            array = registry[type];</span><br><span class="line">            <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; array.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">                handler = array[i];</span><br><span class="line">                <span class="comment">// 每个处理程序包含一个方法和一组可选的参数。</span></span><br><span class="line">                <span class="comment">// 如果该方法是一个字符串形式的名字，那么寻找到该函数。</span></span><br><span class="line">                func = handler.method;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">typeof</span> func === <span class="string">'string'</span>) &#123;</span><br><span class="line">                    func = <span class="keyword">this</span>[func];</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 调用一个处理程序。如果该条目包含参数，那么传递它们过去。否则，传递该事件对象。</span></span><br><span class="line">                func.apply(<span class="keyword">this</span>, handler.parameters || [event]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    that.on = <span class="function"><span class="keyword">function</span> (<span class="params">type, method, parameters</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 注册一个事件。构造一条处理程序条目。将它插入到处理程序数组中，</span></span><br><span class="line">        <span class="comment">// 如果这种类型的事件还不存在，就构造一个。</span></span><br><span class="line">        <span class="keyword">var</span> handler = &#123;</span><br><span class="line">            method: method,</span><br><span class="line">            parameters: parameters</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">if</span> (registry.hasOwnProperty(type)) &#123;</span><br><span class="line">            registry[type].push(handler);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            registry[type] = [handler];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> that;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以在任何单独的对象上调用eventuality, 授予它事件处理方法。我们也可以赶在<code>that</code>被返回之前在一个构造器函数中调用它 <code>eventuality(that);</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">eventuality(myCoolCat);</span><br><span class="line">myCoolCat.health = <span class="number">100</span>;</span><br><span class="line">myCoolCat.on(<span class="string">'dead'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> date = event.date;</span><br><span class="line">    <span class="keyword">var</span> killer = event.killer;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"%s killed me at %s"</span>, killer, date);</span><br><span class="line">&#125;);</span><br><span class="line">myCoolCat.on(<span class="string">'hurt'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.health -= <span class="number">50</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.health &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> event = &#123;</span><br><span class="line">            type: <span class="string">'dead'</span>,</span><br><span class="line">            killer: <span class="string">'stone from sky'</span>,</span><br><span class="line">            date: <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">this</span>.fire(event);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'nothing, who is the strong guy.'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myCoolCat.fire(<span class="string">"hurt"</span>); <span class="comment">//nothing, who is the strong guy.</span></span><br><span class="line">myCoolCat.fire(<span class="string">"hurt"</span>); <span class="comment">//stone from sky killed me at Sat Mar 14 2015 15:47:29 GMT+0800 (CST)</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="数组与对象"><a href="#数组与对象" class="headerlink" title="数组与对象"></a>数组与对象</h5><p>javascript 编程中，一个常见的错误是在必须使用数组时使用了对象，或者在必须使用对象时使用了数组。其实规则很简单：当属性名是小而连续的整数时，你应该使用数组。否则，使用对象。<br>javascript 本身没有一个好的机制来区分数组和对象。我们可以通过定义自己的is_array函数来弥补这个缺陷：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> is_array = <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">        &amp;&amp; <span class="keyword">typeof</span> value === <span class="string">'object'</span></span><br><span class="line">        &amp;&amp; value.constructor === <span class="built_in">Array</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 不过该方法在识别从不同的窗口(window)或者frame里构造的数组时会失败。下面是一个更好的方式</span></span><br><span class="line"><span class="comment">// 上面这句话这里本人尚未理解，请高手指点</span></span><br><span class="line"><span class="keyword">var</span> is_array = <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.apply(value) === <span class="string">'[object Array]'</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h5 id="为数组扩充reduce函数"><a href="#为数组扩充reduce函数" class="headerlink" title="为数组扩充reduce函数"></a>为数组扩充reduce函数</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.method(<span class="string">'reduce'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">f, value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">        value = f(<span class="keyword">this</span>[i], value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// DEMO</span></span><br><span class="line"><span class="keyword">var</span> data = [<span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">42</span>];</span><br><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> mult = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a * b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> sum = data.reduce(add, <span class="number">0</span>);</span><br><span class="line"><span class="built_in">console</span>.log(sum);<span class="comment">// 108</span></span><br><span class="line"><span class="keyword">var</span> product = data.reduce(mult, <span class="number">1</span>);</span><br><span class="line"><span class="built_in">console</span>.log(product); <span class="comment">// 7418880</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为数组其实就是对象，所以我们可以直接给一个单独的数组添加方法</span></span><br><span class="line">data.total = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.reduce(add, <span class="number">0</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> total = data.total();</span><br><span class="line"><span class="built_in">console</span>.log(total); <span class="comment">// 108</span></span><br></pre></td></tr></table></figure>
+<h5 id="为数组指定初始值"><a href="#为数组指定初始值" class="headerlink" title="为数组指定初始值"></a>为数组指定初始值</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.dim = <span class="function"><span class="keyword">function</span> (<span class="params">dimension, initial</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = [], i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; dimension; i += <span class="number">1</span>) &#123;</span><br><span class="line">        a[i] = initial;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> myArray = <span class="built_in">Array</span>.dim(<span class="number">10</span>, <span class="number">0</span>); <span class="comment">//[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]</span></span><br><span class="line"><span class="comment">// 注意这里不能使用我们之前说的method方法，应为那个方法是给某个类型的每一个具体的对象增加方法的，而这里我们是给Array这个 类型 增加方法，类似于某些静态语言中的静态方法或者类方法</span></span><br></pre></td></tr></table></figure>
+<h5 id="数组排序"><a href="#数组排序" class="headerlink" title="数组排序"></a>数组排序</h5><p><code>sort</code> 方法会<code>array</code>中的内容进行排序。但是它不能正确第给一组数字排序：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myNumbers = [<span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">42</span>];</span><br><span class="line">myNumbers.sort(); <span class="comment">// [15, 16, 23, 4, 42, 8]</span></span><br></pre></td></tr></table></figure></p>
+<p>javascript 的默认比较函数把要被排序的元素都视为字符串。它尚未足够智能到在比较这些元素之前先检测他们的类型，所以当它比较这些数字的时候，会把它们转化为字符串，于是得到一个错的离谱的结果。<br>辛运的是，你可以使用自己的比较函数来替换默认的比较函数。</p>
+<blockquote>
+<p>你的比较函数应该接受两个参数，并且如果这两个参数相等则返回0，如果第1个参数应该排列在前面，则返回一个负数，如果第2个参数应该排在前面，则返回一个正数。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myNumbers.sort(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a - b;</span><br><span class="line">&#125;); <span class="comment">// [4, 8, 15, 16, 23, 42]</span></span><br></pre></td></tr></table></figure>
+<p>上面这个函数可以使数字正确排序，但它不能使字符串排序。如果我们想要给任何包含简单值的数组排序，必须要做更多的工作：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myStrings = [<span class="string">'aa'</span>, <span class="string">'bb'</span>, <span class="string">'a'</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">42</span>];</span><br><span class="line">myStrings.sort(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a === b) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> a === <span class="keyword">typeof</span> b) &#123;</span><br><span class="line">        <span class="keyword">return</span> a &lt; b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> a &lt; <span class="keyword">typeof</span> b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">&#125;); <span class="comment">//[4, 8, 15, 16, 23, 42, "a", "aa", "bb"]</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="对象数组排序"><a href="#对象数组排序" class="headerlink" title="对象数组排序"></a>对象数组排序</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// by 函数接受一个成员名字字符串做为参数，</span></span><br><span class="line"><span class="comment">// 并返回一个可以用来对包含该成员的对象数组的进行排序的比较函数</span></span><br><span class="line"><span class="keyword">var</span> by = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">o, p</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> a, b;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> o === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> p === <span class="string">'object'</span> &amp;&amp; o &amp;&amp; p) &#123;</span><br><span class="line">            a = o[name];</span><br><span class="line">            b = p[name];</span><br><span class="line">            <span class="keyword">if</span> (a === b) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> a === <span class="keyword">typeof</span> b) &#123;</span><br><span class="line">                <span class="keyword">return</span> a &lt; b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">typeof</span> a &lt; <span class="keyword">typeof</span> b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> &#123;</span><br><span class="line">                name: <span class="string">'Error'</span>,</span><br><span class="line">                message: <span class="string">'Expected an object when sorting by '</span> + name</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> myPeople = [</span><br><span class="line">    &#123;<span class="attr">first</span>: <span class="string">'Joe'</span>,      <span class="attr">last</span>: <span class="string">'Beasser'</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">first</span>: <span class="string">'Moe'</span>,      <span class="attr">last</span>: <span class="string">'Howard'</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">first</span>: <span class="string">'Joe'</span>,      <span class="attr">last</span>: <span class="string">'DeRita'</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">first</span>: <span class="string">'Shemp'</span>,    <span class="attr">last</span>: <span class="string">'Howard'</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">first</span>: <span class="string">'Larry'</span>,    <span class="attr">last</span>: <span class="string">'Fine'</span>&#125;,</span><br><span class="line">    &#123;<span class="attr">first</span>: <span class="string">'Curly'</span>,    <span class="attr">last</span>: <span class="string">'Howard'</span>&#125;</span><br><span class="line">];</span><br><span class="line">myPeople.sort(by(<span class="string">'first'</span>));</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">&#123;first: "Curly",    last: "Howard"&#125;,</span></span><br><span class="line"><span class="comment">&#123;first: "Joe",      last: "Beasser"&#125;,</span></span><br><span class="line"><span class="comment">&#123;first: "Joe",      last: "DeRita"&#125;,</span></span><br><span class="line"><span class="comment">&#123;first: "Larry",    last: "Fine"&#125;,</span></span><br><span class="line"><span class="comment">&#123;first: "Moe",      last: "Howard"&#125;,</span></span><br><span class="line"><span class="comment">&#123;tfirst: "Shemp",   last: "Howard"&#125;</span></span><br><span class="line"><span class="comment">]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>sort 方法是不稳定的</p>
+<blockquote>
+<p>排序的稳定性是指排序后数组中的相等值的相对位置没有发生改变，而不稳定性排序则会改变相等值的相对位置。详细内容参见<a href="http://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95#.E7.A9.A9.E5.AE.9A.E7.9A.84.E6.8E.92.E5.BA.8F" target="_blank" rel="noopener">排序算法</a>。JavaScript的<code>sort</code>方法的稳定性根据不同浏览器的实现而不一致。可参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/sort" target="_blank" rel="noopener">Array.prototype.sort</a>中的介绍。</p>
+</blockquote>
+<p>下面的调用：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">myPeople.sort(by(<span class="string">'last'</span>)).sort(by(<span class="string">'first'</span>));</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">&#123;"first": "Curly",  "last": "Howard"&#125;,</span></span><br><span class="line"><span class="comment">&#123;"first": "Joe",    "last": "Beasser"&#125;,</span></span><br><span class="line"><span class="comment">&#123;"first": "Joe",    "last": "DeRita"&#125;,</span></span><br><span class="line"><span class="comment">&#123;"first": "Larry",  "last": "Fine"&#125;,</span></span><br><span class="line"><span class="comment">&#123;"first": "Moe",    "last": "Howard"&#125;,</span></span><br><span class="line"><span class="comment">&#123;"first": "Shemp",  "last": "Howard"&#125;]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure></p>
+<p>不能保证产生正确的序列。如果你想基于多个键值进行排序，你需要再次做更多的工作。我们可以修改by函数，让其可以接受第2个参数，当主要的键值产生一个匹配的时候，另一个compare方法将被调用以决出高下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// by 函数接受一个成员名字字符串和一个可选的次要比较函数做为参数，</span></span><br><span class="line"><span class="comment">// 并返回一个可以用来对包含该成员的对象数组进行排序的比较函数。</span></span><br><span class="line"><span class="comment">// 当 o[name] 和 p[name] 相等时，次要比较函数被用来决出高下。</span></span><br><span class="line"><span class="keyword">var</span> by = <span class="function"><span class="keyword">function</span> (<span class="params">name, minor</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">o, p</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> a, b;</span><br><span class="line">        <span class="keyword">if</span> (o &amp;&amp; p &amp;&amp; <span class="keyword">typeof</span> o === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> p === <span class="string">'object'</span>) &#123;</span><br><span class="line">            a = o[name];</span><br><span class="line">            b = p[name];</span><br><span class="line">            <span class="keyword">if</span> (a === b) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">typeof</span> minor === <span class="string">'function'</span> ? minor(o, p) : <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> a === <span class="keyword">typeof</span> b) &#123;</span><br><span class="line">                <span class="keyword">return</span> a &lt; b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">typeof</span> a &lt; <span class="keyword">typeof</span> b ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> &#123;</span><br><span class="line">                name: <span class="string">'Error'</span>,</span><br><span class="line">                message: <span class="string">'Expected an object when sorting by '</span> + name</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">myPeople.sort(by(<span class="string">'last'</span>, by(<span class="string">'first'</span>)));</span><br><span class="line">[</span><br><span class="line">&#123;<span class="string">"first"</span>: <span class="string">"Joe"</span>,    <span class="string">"last"</span>: <span class="string">"Beasser"</span>&#125;,</span><br><span class="line">&#123;<span class="string">"first"</span>: <span class="string">"Joe"</span>,    <span class="string">"last"</span>: <span class="string">"DeRita"</span>&#125;,</span><br><span class="line">&#123;<span class="string">"first"</span>: <span class="string">"Larry"</span>,  <span class="string">"last"</span>: <span class="string">"Fine"</span>&#125;,</span><br><span class="line">&#123;<span class="string">"first"</span>: <span class="string">"Curly"</span>,  <span class="string">"last"</span>: <span class="string">"Howard"</span>&#125;,</span><br><span class="line">&#123;<span class="string">"first"</span>: <span class="string">"Moe"</span>,    <span class="string">"last"</span>: <span class="string">"Howard"</span>&#125;,</span><br><span class="line">&#123;<span class="string">"first"</span>: <span class="string">"Shemp"</span>,  <span class="string">"last"</span>: <span class="string">"Howard"</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="正则表达式-解析URL"><a href="#正则表达式-解析URL" class="headerlink" title="正则表达式 - 解析URL"></a>正则表达式 - 解析URL</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> parse_url = <span class="regexp">/^(?:([A-Za-z]+):)?(\/&#123;0,3&#125;)([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/</span>;</span><br><span class="line"><span class="keyword">var</span> url = <span class="string">"http://www.ora.com:80/goodparts?q#fragment"</span>;</span><br><span class="line"><span class="keyword">var</span> result = parse_url.exec(url);</span><br><span class="line"><span class="keyword">var</span> names = [<span class="string">'url'</span>, <span class="string">'scheme'</span>, <span class="string">'slash'</span>, <span class="string">'host'</span>, <span class="string">'port'</span>, <span class="string">'path'</span>, <span class="string">'query'</span>, <span class="string">'hash'</span>];</span><br><span class="line"><span class="keyword">var</span> blanks = <span class="string">'      '</span>;</span><br><span class="line"><span class="keyword">var</span> i;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; names.length; i += <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"%s:%s%s"</span>, names[i], blanks.substring(names[i].length), result[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> url:   http://www.ora.com:80/goodparts?q#fragment</span></span><br><span class="line"><span class="comment"> scheme:http</span></span><br><span class="line"><span class="comment"> slash: //</span></span><br><span class="line"><span class="comment"> host:  www.ora.com</span></span><br><span class="line"><span class="comment"> port:  80</span></span><br><span class="line"><span class="comment"> path:  goodparts</span></span><br><span class="line"><span class="comment"> query: q</span></span><br><span class="line"><span class="comment"> hash:  fragment</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h5 id="正则表达式-验证数字"><a href="#正则表达式-验证数字" class="headerlink" title="正则表达式 - 验证数字"></a>正则表达式 - 验证数字</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> parse_number = <span class="regexp">/^-?\d+(?:\.\d*)?(?:e[+\-]?\d+)?$/i</span>;</span><br><span class="line"><span class="keyword">var</span> isNumber = <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = parse_number.test(value);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"%s %s a number"</span>, value, result ? <span class="string">"is"</span> : <span class="string">"is not"</span>);</span><br><span class="line">&#125;</span><br><span class="line">isNumber(<span class="string">'1'</span>)</span><br><span class="line"><span class="comment">// 1 is a number</span></span><br><span class="line">isNumber(<span class="string">'number'</span>)</span><br><span class="line"><span class="comment">// number is not a number</span></span><br><span class="line">isNumber(<span class="string">'98.6'</span>)</span><br><span class="line"><span class="comment">// 98.6 is a number</span></span><br><span class="line">isNumber(<span class="string">'132.21.86.100'</span>)</span><br><span class="line"><span class="comment">// 132.21.86.100 is not a number</span></span><br><span class="line">isNumber(<span class="string">'123.45E-67'</span>)</span><br><span class="line"><span class="comment">// 123.45E-67 is a number</span></span><br><span class="line">isNumber(<span class="string">'123.45D-67'</span>)</span><br><span class="line"><span class="comment">//123.45D-67 is not a number</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数字可能由一个整数部分加上一个可选的负号、一个可选的小数部分和一个可选的指数部分构成</span></span><br></pre></td></tr></table></figure>
+<h5 id="正则表达式中32个ASCII特殊字符集合："><a href="#正则表达式中32个ASCII特殊字符集合：" class="headerlink" title="正则表达式中32个ASCII特殊字符集合："></a>正则表达式中32个ASCII特殊字符集合：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">!"#$%</span></span><br><span class="line"><span class="comment">&amp;'()*</span></span><br><span class="line"><span class="comment">+,-./</span></span><br><span class="line"><span class="comment">:;&lt;=&gt;</span></span><br><span class="line"><span class="comment">?@[\]</span></span><br><span class="line"><span class="comment">^_`&#123;\</span></span><br><span class="line"><span class="comment">&#125;~</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">var</span> ascii32 = <span class="regexp">/(?:!|"|#|\$|%|&amp;|'|\(|\)|\*|\+|,|-|\/|:|;|&lt;|=|&gt;|\?|@|\[|\\|]|\^|_|`|\&#123;|\||\&#125;|~)/</span>;</span><br><span class="line"><span class="comment">// 这是其中一种简写方式，不过依旧难以阅读</span></span><br><span class="line"><span class="keyword">var</span> ascii32_short1 = <span class="regexp">/[!-\/:-@\[-`&#123;-~]/</span>;</span><br><span class="line"><span class="comment">// 正则表达式的一个方便之处就是类的求反。如果 [ 后的第一个字符是 ^ ,那么这个类会排除这些特殊字符。</span></span><br><span class="line"><span class="keyword">var</span> not_ascii = <span class="regexp">/[^!-\/:-@\[-`&#123;-~]/</span>;</span><br></pre></td></tr></table></figure>
+<hr>
+<h5 id="糟粕"><a href="#糟粕" class="headerlink" title="糟粕"></a>糟粕</h5><p>javascript 有两组相等运算符：=== 和 !==, 以及它们邪恶的孪生兄弟 == 和 !=。=== 和 !== 这一组运算符会按照你期望的方式工作。如果来两个运算数类型一致并且拥有相同的值，那么 === 返回 <code>true</code>，!== 返回 <code>false</code>。而它们邪恶的孪生兄弟只有在两个运算数类型一致时才会做出正确的判断，如果两个运算数是不同的类型，它们试图去强制转换值的类型。转换的规则复杂且难以记忆。这里有一些有趣的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">''</span> == <span class="string">'0'</span>           <span class="comment">// false</span></span><br><span class="line"><span class="number">0</span>  == <span class="string">''</span>            <span class="comment">// true</span></span><br><span class="line"><span class="number">0</span>  == <span class="string">'0'</span>           <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="literal">false</span> == <span class="string">'false'</span>    <span class="comment">// false</span></span><br><span class="line"><span class="literal">false</span> == <span class="string">'0'</span>        <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="literal">false</span> == <span class="literal">undefined</span>  <span class="comment">// false</span></span><br><span class="line"><span class="literal">false</span> == <span class="literal">null</span>       <span class="comment">// false</span></span><br><span class="line"><span class="literal">null</span>  == <span class="literal">undefined</span>  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="string">' \t\r\n'</span> == <span class="number">0</span>      <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p> == 运算符对传递性的缺乏值得我们警惕。我的建议是永远不要使用那对邪恶的孪生兄弟。相反，请始终使用 === 和 !==。如果以上所有比较使用 === 运算符，结果都是<code>false</code>。</p>
+<blockquote>
+<p>传递性是一种编程约定。可以这么理解：对于任意的引用值x、y和z，如果 <code>x == y</code> 和 <code>y == z</code> 为<code>true</code>，那么<code>x == z</code>为<code>true</code>。而javascript中的 == 运算符在某些特例上违背了传递性。</p>
+</blockquote>
+<hr>
+<h5 id="最后-以一个自定义的JSON解析器-结尾吧"><a href="#最后-以一个自定义的JSON解析器-结尾吧" class="headerlink" title="最后 以一个自定义的JSON解析器 结尾吧"></a>最后 以一个自定义的JSON解析器 结尾吧</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是一个用JavaScript编写JSON解析器的实现方案：</span></span><br><span class="line"><span class="keyword">var</span> json_parse = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 这是一个能把JSON文本解析成JavaScript数据结构的函数。</span></span><br><span class="line">    <span class="comment">// 它是一个简单的递归降序解析器。</span></span><br><span class="line">    <span class="comment">// 我们在另一个函数中定义此函数，以避免创建全局变量。</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> at,         <span class="comment">// 当前字符索引</span></span><br><span class="line">        ch,         <span class="comment">// 当前字符</span></span><br><span class="line">        escapee = &#123;</span><br><span class="line">            <span class="string">'"'</span>     : <span class="string">'"'</span>,</span><br><span class="line">            <span class="string">'\\'</span>    : <span class="string">'\\'</span>,</span><br><span class="line">            <span class="string">'/'</span>     : <span class="string">'/'</span>,</span><br><span class="line">            b       : <span class="string">'b'</span>,</span><br><span class="line">            f       : <span class="string">'\f'</span>,</span><br><span class="line">            n       : <span class="string">'\n'</span>,</span><br><span class="line">            r       : <span class="string">'\r'</span>,</span><br><span class="line">            t       : <span class="string">'\t'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        text,</span><br><span class="line">        error = <span class="function"><span class="keyword">function</span> (<span class="params">m</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 当某处出错时，调用error。</span></span><br><span class="line">            <span class="keyword">throw</span> &#123;</span><br><span class="line">                name    : <span class="string">'SyntaxError'</span>,</span><br><span class="line">                messsage: m,</span><br><span class="line">                at      : at,</span><br><span class="line">                text    : text</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        next = <span class="function"><span class="keyword">function</span> (<span class="params">c</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 如果提供了参数 c, 那么检查它是否匹配当前字符。</span></span><br><span class="line">            <span class="keyword">if</span> (c &amp;&amp; c !== ch) &#123;</span><br><span class="line">                error(<span class="string">"Expected '"</span> + c + <span class="string">"' insttead of '"</span> + ch + <span class="string">"'"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 获取下一个字符。当没有下一个字符时，返回一个空字符串。</span></span><br><span class="line">            ch = text.charAt(at);</span><br><span class="line">            at += <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">return</span> ch;</span><br><span class="line">        &#125;,</span><br><span class="line">        number = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 解析一个数字值。</span></span><br><span class="line">            <span class="keyword">var</span> number,</span><br><span class="line">                string = <span class="string">''</span>;</span><br><span class="line">            <span class="keyword">if</span> (ch === <span class="string">'-'</span>) &#123;</span><br><span class="line">                string = <span class="string">'-'</span>;</span><br><span class="line">                next(<span class="string">'-'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> (ch &gt;= <span class="string">'0'</span> &amp;&amp; ch &lt;= <span class="string">'9'</span>) &#123;</span><br><span class="line">                string += ch;</span><br><span class="line">                next();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ch === <span class="string">'.'</span>) &#123;</span><br><span class="line">                string += <span class="string">"."</span>;</span><br><span class="line">                <span class="keyword">while</span> (next() &amp;&amp; ch &gt;= <span class="string">'0'</span> &amp;&amp; ch &lt;= <span class="string">'9'</span>) &#123;</span><br><span class="line">                    string += ch;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ch == <span class="string">'e'</span> || ch == <span class="string">'E'</span>) &#123;</span><br><span class="line">                string += ch;</span><br><span class="line">                next();</span><br><span class="line">                <span class="keyword">if</span> (ch === <span class="string">'-'</span> || ch === <span class="string">'+'</span>) &#123;</span><br><span class="line">                    string += ch;</span><br><span class="line">                    next();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span> (ch &gt;= <span class="string">'0'</span> &amp;&amp; ch &lt;= <span class="string">'9'</span>) &#123;</span><br><span class="line">                    string += ch;</span><br><span class="line">                    next();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            number = +string;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isNaN</span>(number)) &#123;</span><br><span class="line">                error(<span class="string">"Bad number"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> number;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        string = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 解析一个字符串值。</span></span><br><span class="line">            <span class="keyword">var</span> hex,</span><br><span class="line">                i,</span><br><span class="line">                string = <span class="string">''</span>,</span><br><span class="line">                uffff;</span><br><span class="line">            <span class="comment">// 当解析字符串值时，我们必须找到 " 和 \ 字符。</span></span><br><span class="line">            <span class="keyword">if</span> (ch === <span class="string">'"'</span>) &#123;</span><br><span class="line">                <span class="keyword">while</span> (next()) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (ch === <span class="string">'"'</span>) &#123;</span><br><span class="line">                        next();</span><br><span class="line">                        <span class="keyword">return</span> string;</span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ch === <span class="string">'\\'</span>) &#123;</span><br><span class="line">                        next();</span><br><span class="line">                        <span class="keyword">if</span> (ch === <span class="string">'u'</span>) &#123;</span><br><span class="line">                            uffff = <span class="number">0</span>;</span><br><span class="line">                            <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i += <span class="number">1</span>) &#123;</span><br><span class="line">                                hex = <span class="built_in">parseInt</span>(next(), <span class="number">16</span>);</span><br><span class="line">                                <span class="keyword">if</span> (!<span class="built_in">isFinite</span>(hex)) &#123;</span><br><span class="line">                                    <span class="keyword">break</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                                uffff = uffff * <span class="number">16</span> + hex;</span><br><span class="line">                            &#125;</span><br><span class="line">                            string += <span class="built_in">String</span>.fromCharCode(uffff);</span><br><span class="line">                        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> escapee[ch] === <span class="string">'string'</span>) &#123;</span><br><span class="line">                            string += escapee[ch];</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        string += ch;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            error(<span class="string">"Bad string"</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        white = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 跳过空白</span></span><br><span class="line">            <span class="keyword">while</span> (ch &amp;&amp; ch &lt;= <span class="string">' '</span>) &#123;</span><br><span class="line">                next();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        word = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// true, false 或者 null</span></span><br><span class="line">            <span class="keyword">switch</span> (ch) &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'t'</span>:</span><br><span class="line">                    next(<span class="string">'t'</span>);</span><br><span class="line">                    next(<span class="string">'r'</span>);</span><br><span class="line">                    next(<span class="string">'u'</span>);</span><br><span class="line">                    next(<span class="string">'e'</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'f'</span>:</span><br><span class="line">                    next(<span class="string">'f'</span>);</span><br><span class="line">                    next(<span class="string">'a'</span>);</span><br><span class="line">                    next(<span class="string">'l'</span>);</span><br><span class="line">                    next(<span class="string">'s'</span>);</span><br><span class="line">                    next(<span class="string">'e'</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">'n'</span>:</span><br><span class="line">                    next(<span class="string">'n'</span>);</span><br><span class="line">                    next(<span class="string">'u'</span>);</span><br><span class="line">                    next(<span class="string">'l'</span>);</span><br><span class="line">                    next(<span class="string">'l'</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            error(<span class="string">"Unexpected '"</span> + ch + <span class="string">"'"</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        value,  <span class="comment">// 值函数的占位符。</span></span><br><span class="line">        array = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 解析一个数组值。</span></span><br><span class="line">            <span class="keyword">var</span> array = [];</span><br><span class="line">            <span class="keyword">if</span> (ch === <span class="string">'['</span>) &#123;</span><br><span class="line">                white();</span><br><span class="line">                <span class="keyword">if</span> (ch === <span class="string">']'</span>) &#123;</span><br><span class="line">                    next(<span class="string">']'</span>);</span><br><span class="line">                    <span class="keyword">return</span> array;   <span class="comment">// 空数组</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span> (ch) &#123;</span><br><span class="line">                    array.push(value());</span><br><span class="line">                    white();</span><br><span class="line">                    <span class="keyword">if</span> (ch === <span class="string">"]"</span>) &#123;</span><br><span class="line">                        next(<span class="string">']'</span>);</span><br><span class="line">                        <span class="keyword">return</span> array;</span><br><span class="line">                    &#125;</span><br><span class="line">                    next(<span class="string">','</span>);</span><br><span class="line">                    white();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            error(<span class="string">"Bad array"</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        object = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 解析一个对象值</span></span><br><span class="line">            <span class="keyword">var</span> key,</span><br><span class="line">                object = &#123;&#125;;</span><br><span class="line">            <span class="keyword">if</span>(ch === <span class="string">'&#123;'</span>) &#123;</span><br><span class="line">                next(<span class="string">'&#123;'</span>);</span><br><span class="line">                white();</span><br><span class="line">                <span class="keyword">if</span> (ch === <span class="string">"&#125;"</span>) &#123;</span><br><span class="line">                    next(<span class="string">'&#125;'</span>);</span><br><span class="line">                    <span class="keyword">return</span> object;  <span class="comment">// 空对象</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span> (ch) &#123;</span><br><span class="line">                    key = string();</span><br><span class="line">                    white();</span><br><span class="line">                    next(<span class="string">":"</span>);</span><br><span class="line">                    object[key] = value();</span><br><span class="line">                    white();</span><br><span class="line">                    <span class="keyword">if</span>(ch === <span class="string">'&#125;'</span>) &#123;</span><br><span class="line">                        next(<span class="string">'&#125;'</span>);</span><br><span class="line">                        <span class="keyword">return</span> object;</span><br><span class="line">                    &#125;</span><br><span class="line">                    next(<span class="string">","</span>);</span><br><span class="line">                    white();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            error(<span class="string">"Bad object"</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">    value = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 解析一个JSON值。它可以是对象、数组、字符串、数字或一个词。</span></span><br><span class="line">        white();</span><br><span class="line">        <span class="keyword">switch</span> (ch) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'&#123;'</span>:</span><br><span class="line">                <span class="keyword">return</span> object();</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'['</span>:</span><br><span class="line">                <span class="keyword">return</span> array();</span><br><span class="line">            <span class="keyword">case</span> <span class="string">'"'</span>:</span><br><span class="line">                <span class="keyword">return</span> string();</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"-"</span>:</span><br><span class="line">                <span class="keyword">return</span> number();</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> ch &gt;= <span class="string">'0'</span> &amp;&amp; ch &lt;= <span class="string">'9'</span> ? number() : word() ;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// 返回json_parse 函数。它能访问上述所有的函数和变量。</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">source, reviver</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> result;</span><br><span class="line">        text = source;</span><br><span class="line">        at = <span class="number">0</span>;</span><br><span class="line">        ch = <span class="string">' '</span>;</span><br><span class="line">        result = value();</span><br><span class="line">        white();</span><br><span class="line">        <span class="keyword">if</span> (ch) &#123;</span><br><span class="line">            error(<span class="string">"Syntax error"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 如果存在reviver 函数，我们就递归地对这个新结构调用walk函数，</span></span><br><span class="line">        <span class="comment">// 开始时先创建一个临时的启动对象，并以一个空字符串作为键名保存结果，</span></span><br><span class="line">        <span class="comment">// 然后传递每个键值对给reviver函数去处理可能存在的转换。</span></span><br><span class="line">        <span class="comment">// 如果没有reviver函数，我们就简单地返回这个结果。</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">typeof</span> reviver === <span class="string">'function'</span> ?</span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">walk</span>(<span class="params">holder, key</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">var</span> k, v, value = holder[key];</span><br><span class="line">                <span class="keyword">if</span> (value &amp;&amp; <span class="keyword">typeof</span> value === <span class="string">'object'</span>) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (k <span class="keyword">in</span> value) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (<span class="built_in">Object</span>.hasOwnProperty.call(value, k)) &#123;</span><br><span class="line">                            v = walk(value, k);</span><br><span class="line">                            <span class="keyword">if</span> (v !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">                                value[k] = v;</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                <span class="keyword">delete</span> value[k];</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> reviver.call(holder, key, value);</span><br><span class="line">            &#125;(&#123;<span class="string">''</span>: result&#125;, <span class="string">''</span>)</span><br><span class="line">            : result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;();</span><br></pre></td></tr></table></figure>
+<h2 id="This-is-the-end"><a href="#This-is-the-end" class="headerlink" title="This is the end."></a>This is the end.</h2><p>正文部分到此结束。<br>第一次写读书笔记，一是加深自己的印象，二来方便以后查阅，毕竟纸张没有搜索功能。<br>如果你也喜欢这篇文章欢迎转载，但本文代码版权属于《JavaScript 语言精粹》，小部分代码扩充是为了演示代码效果。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jack</li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    
+    <a href="http://mrzzcn.github.io/2015/05/24/JavaScript-The-Good-Parts/" title="JavaScript The Good Parts">http://mrzzcn.github.io/2015/05/24/JavaScript-The-Good-Parts/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+            <a href="/tags/Douglas-Crockford/" rel="tag"># Douglas-Crockford</a>
+          
+            <a href="/tags/最佳实践/" rel="tag"># 最佳实践</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/17/git-flow/" rel="prev" title="Git 工作流">
+                Git 工作流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jack</p>
+              <div class="site-description motion-element" itemprop="description">屈子泪，离歌起，力拔山兮</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/mrzzcn" title="GitHub &rarr; https://github.com/mrzzcn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:mrzzcn@gmail.com" title="E-Mail &rarr; mailto:mrzzcn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/zzspace" title="Weibo &rarr; https://weibo.com/zzspace" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/mrzhangzhen" title="Twitter &rarr; https://twitter.com/mrzhangzhen" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"/></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#This-is-the-end"><span class="nav-number">1.</span> <span class="nav-text">This is the end.</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jack</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'da5de7af34d6bdf63448',
+    clientSecret: 'bc5cee0c5330f2930f633a7228aff5d73103f869',
+    repo: 'mrzzcn.github.io',
+    owner: 'mrzzcn',
+    admin: ['mrzzcn'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

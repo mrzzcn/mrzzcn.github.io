@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/imgs/avatar.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/imgs/favicon.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/imgs/favicon.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/imgs/logo.png?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="0. 背景前端开发过程中，与后端约定接口标准之后，双方同时开始开发，可能会出现后端没有 Ready，但是前端已经需要使用接口的情况。这时候就需要 Fake 接口。有几种方式：     优点 缺点     1. 项目中使用 Fake Promise 方便快速 不能模拟真实网络请求，对代码有侵入，需要在 webpack 中配置路径替换或手动切换文件   2. 项目中使用 mockjs 等服务端方式启动">
+<meta name="keywords" content="Heroku,mongoDB,YApi,development">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Heroku 和 mongoDB Atlas 免费托管 YApi">
+<meta property="og:url" content="http://mrzzcn.github.io/2019/04/27/host-yapi-with-heroku-and-mongodb-atlas/index.html">
+<meta property="og:site_name" content="随笔">
+<meta property="og:description" content="0. 背景前端开发过程中，与后端约定接口标准之后，双方同时开始开发，可能会出现后端没有 Ready，但是前端已经需要使用接口的情况。这时候就需要 Fake 接口。有几种方式：     优点 缺点     1. 项目中使用 Fake Promise 方便快速 不能模拟真实网络请求，对代码有侵入，需要在 webpack 中配置路径替换或手动切换文件   2. 项目中使用 mockjs 等服务端方式启动">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-04-27T04:50:27.986Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 Heroku 和 mongoDB Atlas 免费托管 YApi">
+<meta name="twitter:description" content="0. 背景前端开发过程中，与后端约定接口标准之后，双方同时开始开发，可能会出现后端没有 Ready，但是前端已经需要使用接口的情况。这时候就需要 Fake 接口。有几种方式：     优点 缺点     1. 项目中使用 Fake Promise 方便快速 不能模拟真实网络请求，对代码有侵入，需要在 webpack 中配置路径替换或手动切换文件   2. 项目中使用 mockjs 等服务端方式启动">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="随笔" type="application/atom+xml"/>
+
+
+
+
+  <link rel="canonical" href="http://mrzzcn.github.io/2019/04/27/host-yapi-with-heroku-and-mongodb-atlas/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用 Heroku 和 mongoDB Atlas 免费托管 YApi | 随笔</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">随笔</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">技术 | 生活</h1>
+      
+    
+    
+      <a>
+        <img class="custom-logo-image" src="/imgs/logo.png" alt="随笔"/>
+      </a>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br/>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br/>Schedule</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <a href="https://github.com/mrzzcn" class="github-corner" title="Follow me" aria-label="Follow me" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2019/04/27/host-yapi-with-heroku-and-mongodb-atlas/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jack"/>
+      <meta itemprop="description" content="屈子泪，离歌起，力拔山兮"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随笔"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">使用 Heroku 和 mongoDB Atlas 免费托管 YApi
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: Apr 27 2019 09:56:48 / Modified: 12:50:27" itemprop="dateCreated datePublished" datetime="2019-04-27T09:56:48+08:00">Apr 27 2019</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Front-end/" itemprop="url" rel="index"><span itemprop="name">Front-end</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0-背景"><a href="#0-背景" class="headerlink" title="0. 背景"></a>0. 背景</h2><p>前端开发过程中，与后端约定接口标准之后，双方同时开始开发，可能会出现后端没有 Ready，但是前端已经需要使用接口的情况。这时候就需要 Fake 接口。有几种方式：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 项目中使用 Fake Promise</td>
+<td>方便快速</td>
+<td>不能模拟真实网络请求，对代码有侵入，需要在 webpack 中配置路径替换或手动切换文件</td>
+</tr>
+<tr>
+<td>2. 项目中使用 mockjs 等服务端方式启动自托管 mock server</td>
+<td>方便快速，真实网络请求</td>
+<td>增加项目体积，不利于多项目共享基础设施，耗费开发服务器性能</td>
+</tr>
+<tr>
+<td>3. 使用单独的 mock server</td>
+<td>真实网络请求，可集成后端接口测试，TS 代码模板等功能</td>
+<td>需要花稍多时间维护接口</td>
+</tr>
+</tbody>
+</table>
+<p>这里介绍一下使用第三种方式的一个实现方法：<strong>YApi</strong>，可以去<a href="http://yapi.demo.qunar.com/" target="_blank" rel="noopener">这里</a>体验。<br>YApi 是 node + mongoDB 项目，本篇介绍一下自己使用 Heroku 和 mongoDB Atlas 免费部署 YApi 的过程。</p>
+<h2 id="1-注册帐号"><a href="#1-注册帐号" class="headerlink" title="1. 注册帐号"></a>1. 注册帐号</h2><p><a href="https://cloud.mongodb.com/" target="_blank" rel="noopener">https://cloud.mongodb.com/</a> 提供免费的 mongoDB 数据库服务<br><a href="https://www.heroku.com/" target="_blank" rel="noopener">https://www.heroku.com/</a> 提供免费的 node 程序托管服务</p>
+<a id="more"></a>
+<h2 id="2-准备"><a href="#2-准备" class="headerlink" title="2. 准备"></a>2. 准备</h2><h3 id="2-1-建立数据库"><a href="#2-1-建立数据库" class="headerlink" title="2.1 建立数据库"></a>2.1 建立数据库</h3><p>登录 <a href="https://cloud.mongodb.com/" target="_blank" rel="noopener">https://cloud.mongodb.com/</a> 创建 sandbox 实例。得到类似<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;username&gt; 为用户名</span></span><br><span class="line"><span class="comment"># &lt;password&gt; 为密码</span></span><br><span class="line"><span class="comment"># 修改结尾处 test =&gt; yapi</span></span><br><span class="line">mongodb+srv://&lt;username&gt;:&lt;password&gt;@xxxx.mongodb.net/yapi?retryWrites=<span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>的连接字符串。</p>
+<h3 id="2-3-克隆代码"><a href="#2-3-克隆代码" class="headerlink" title="2.3 克隆代码"></a>2.3 克隆代码</h3><p>YApi 源码位于 <code>https://github.com/YMFE/yapi</code> 你可以 Fork 到你自己的仓库，然后克隆。<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">git</span>@github.com:YMFE/yapi.git</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-4-修改几行代码适应-Heroku-部署"><a href="#2-4-修改几行代码适应-Heroku-部署" class="headerlink" title="2.4 修改几行代码适应 Heroku 部署"></a>2.4 修改几行代码适应 Heroku 部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> yapi</span><br><span class="line"><span class="comment"># 这里使用最新版 1.7.0 ，如果担心最新版有问题也可以切换别的版本</span></span><br><span class="line"><span class="comment"># https://github.com/YMFE/yapi/releases</span></span><br><span class="line">git checkout -b dev v1.7.0 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建配置文件</span></span><br><span class="line">cp ./config_example.json ./config.js</span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于 YApi 项目使用 JSON 配置文件，而 JSON 中不能使用环境变量，所以我们这里改为使用 JS 配置文件</span></span><br><span class="line"><span class="comment"># 打开 config.js 在第一行 增加 module.exports = </span></span><br><span class="line"><span class="comment"># 找到 db 段配置</span></span><br><span class="line"><span class="comment">#    添加 connecString 属性，值为 2.1 步得到的字符串</span></span><br><span class="line"><span class="comment">#    修改 user 属性值为 2.1 步的 用户名</span></span><br><span class="line"><span class="comment">#    修改 pass 属性值为 2.1 步的 密码</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开 server/yapi.js 文件 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改以下行内容</span></span><br><span class="line">const config = require(<span class="string">'../../config.json'</span>);</span><br><span class="line"><span class="comment"># =&gt;</span></span><br><span class="line">const config = require(<span class="string">'../config.js'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开 ykit.config.js </span></span><br><span class="line">configPlugin = require(<span class="string">'../config.json'</span>).plugins;</span><br><span class="line"><span class="comment"># =&gt;</span></span><br><span class="line">configPlugin = require(<span class="string">'../config.js'</span>).plugins;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开 server/utils/initConfig.js</span></span><br><span class="line"><span class="built_in">let</span> configPath = path.join(runtimePath, <span class="string">'config.json'</span>);</span><br><span class="line"><span class="comment"># =&gt; </span></span><br><span class="line"><span class="built_in">let</span> configPath = path.join(runtimePath, <span class="string">'config.js'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改日志路径，因为 Heroku 根目录为只读路径，不允许程序创建或写入</span></span><br><span class="line">const WEBROOT_LOG = path.join(WEBROOT_RUNTIME, <span class="string">'log'</span>);</span><br><span class="line">=&gt;</span><br><span class="line">const WEBROOT_LOG = path.resolve(__dirname, <span class="string">'log'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-初始化数据库"><a href="#2-5-初始化数据库" class="headerlink" title="2.5 初始化数据库"></a>2.5 初始化数据库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm run install-server</span><br><span class="line"><span class="comment"># 出现以下日志，即表示数据库初始化成功</span></span><br><span class="line"><span class="built_in">log</span>: mongodb load success...</span><br><span class="line">初始化管理员账号成功,账号名：<span class="string">"admin@admin.com"</span>，密码：<span class="string">"ymfe.org"</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-6-增加环境变量"><a href="#2-6-增加环境变量" class="headerlink" title="2.6 增加环境变量"></a>2.6 增加环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开 config.js</span></span><br><span class="line"><span class="comment"># 修改 port 节点：process.env.PORT</span></span><br><span class="line"><span class="comment"># 因为 Heroku 会提供一个端口用来做转发，应用程序必须通过环境变量获取这个端口并监听，否则应用无法启动</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 db 节点到以下内容：</span></span><br><span class="line">  <span class="string">"db"</span>: &#123;</span><br><span class="line">    <span class="string">"connectString"</span>: process.env.connectString,</span><br><span class="line">    <span class="string">"servername"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="string">"DATABASE"</span>: <span class="string">"yapi"</span>,</span><br><span class="line">    <span class="string">"port"</span>: 27017,</span><br><span class="line">    <span class="string">"user"</span>: process.env.connectUser,</span><br><span class="line">    <span class="string">"pass"</span>: process.env.connectPass,</span><br><span class="line">    <span class="string">"authSource"</span>: <span class="string">"yapi"</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit</span><br></pre></td></tr></table></figure>
+<h2 id="3-部署"><a href="#3-部署" class="headerlink" title="3. 部署"></a>3. 部署</h2><h3 id="3-1-创建项目"><a href="#3-1-创建项目" class="headerlink" title="3.1 创建项目"></a>3.1 创建项目</h3><p>登录 <a href="https://dashboard.heroku.com/" target="_blank" rel="noopener">https://dashboard.heroku.com/</a> 创建 app，例如 <code>yapi-demo</code>（已使用，请另外命名），创建完成之后来到项目页面：<a href="https://dashboard.heroku.com/apps/yapi-demo" target="_blank" rel="noopener">https://dashboard.heroku.com/apps/yapi-demo</a></p>
+<h3 id="3-2-配置环境变量"><a href="#3-2-配置环境变量" class="headerlink" title="3.2 配置环境变量"></a>3.2 配置环境变量</h3><p>点击 Settings -&gt; Reveal Config Vars<br>依次添加：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">connectString:</span> <span class="string">mongodb+srv://&lt;username&gt;:&lt;password&gt;@xxxx.mongodb.net/yapi?retryWrites=true</span></span><br><span class="line"><span class="attr">connectUser:</span> <span class="string">admin</span></span><br><span class="line"><span class="attr">connectPass:</span> <span class="string">xxxxx</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-3-推送代码"><a href="#3-3-推送代码" class="headerlink" title="3.3 推送代码"></a>3.3 推送代码</h3><p>在项目主页点击 Deploy，根据提示安装 <code>Heroku CLI</code> 并登录。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd yapi</span></span><br><span class="line"><span class="comment"># 修改 package.json -&gt; engines -&gt; node 为："&gt;= 7.6.0 &lt; 11"</span></span><br><span class="line"><span class="comment"># 因为项目使用了 node-sass. node-sass 的 linux 支持到此版本。</span></span><br><span class="line">heroku git:remote -a yapi-demo</span><br><span class="line">git push heroku dev:master --force</span><br><span class="line"><span class="comment"># 等待服务器处理完成即可</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-4-验证部署"><a href="#3-4-验证部署" class="headerlink" title="3.4 验证部署"></a>3.4 验证部署</h3><p>打开 <a href="https://yapi-demo.herokuapp.com/" target="_blank" rel="noopener">https://yapi-demo.herokuapp.com/</a>（当然，你要替换成你自己的应用名）。<br>首次加载可能很慢，有一个超大JS，需要加载一分钟左右（团队需要解决下）。<br>使用先前的用户名和密码登录即可体验。</p>
+<p>你也可以使用 <a href="mailto:demo@demo.com" target="_blank" rel="noopener">demo@demo.com</a>/demo 登录<a href="https://yapi-demo.herokuapp.com/" target="_blank" rel="noopener">YApi Demo</a> 体验，请勿修改密码。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jack</li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    
+    <a href="http://mrzzcn.github.io/2019/04/27/host-yapi-with-heroku-and-mongodb-atlas/" title="使用 Heroku 和 mongoDB Atlas 免费托管 YApi">http://mrzzcn.github.io/2019/04/27/host-yapi-with-heroku-and-mongodb-atlas/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Heroku/" rel="tag"># Heroku</a>
+          
+            <a href="/tags/mongoDB/" rel="tag"># mongoDB</a>
+          
+            <a href="/tags/YApi/" rel="tag"># YApi</a>
+          
+            <a href="/tags/development/" rel="tag"># development</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/11/HTTP-Security-Headers/" rel="next" title="强化网站安全 - 第一篇：安全相关的Headers (Hardening Website Security – Part 1: HTTP Security Headers)">
+                <i class="fa fa-chevron-left"></i> 强化网站安全 - 第一篇：安全相关的Headers (Hardening Website Security – Part 1: HTTP Security Headers)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="gitalk-container">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jack</p>
+              <div class="site-description motion-element" itemprop="description">屈子泪，离歌起，力拔山兮</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/mrzzcn" title="GitHub &rarr; https://github.com/mrzzcn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:mrzzcn@gmail.com" title="E-Mail &rarr; mailto:mrzzcn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/zzspace" title="Weibo &rarr; https://weibo.com/zzspace" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/mrzhangzhen" title="Twitter &rarr; https://twitter.com/mrzhangzhen" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"/></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-背景"><span class="nav-number">1.</span> <span class="nav-text">0. 背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-注册帐号"><span class="nav-number">2.</span> <span class="nav-text">1. 注册帐号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-准备"><span class="nav-number">3.</span> <span class="nav-text">2. 准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-建立数据库"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 建立数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-克隆代码"><span class="nav-number">3.2.</span> <span class="nav-text">2.3 克隆代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-修改几行代码适应-Heroku-部署"><span class="nav-number">3.3.</span> <span class="nav-text">2.4 修改几行代码适应 Heroku 部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-初始化数据库"><span class="nav-number">3.4.</span> <span class="nav-text">2.5 初始化数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-增加环境变量"><span class="nav-number">3.5.</span> <span class="nav-text">2.6 增加环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-部署"><span class="nav-number">4.</span> <span class="nav-text">3. 部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-创建项目"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 创建项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-配置环境变量"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 配置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-推送代码"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 推送代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-验证部署"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 验证部署</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jack</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: 'da5de7af34d6bdf63448',
+    clientSecret: 'bc5cee0c5330f2930f633a7228aff5d73103f869',
+    repo: 'mrzzcn.github.io',
+    owner: 'mrzzcn',
+    admin: ['mrzzcn'],
+    id: md5(location.pathname),
+    
+      language: window.navigator.language || window.navigator.userLanguage,
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
