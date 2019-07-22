@@ -101,7 +101,7 @@
   <meta name="description" content="屈子泪，离歌起，力拔山兮">
 <meta property="og:type" content="website">
 <meta property="og:title" content="随笔">
-<meta property="og:url" content="http://mrzzcn.github.io/index.html">
+<meta property="og:url" content="https://mrzzcn.github.io/index.html">
 <meta property="og:site_name" content="随笔">
 <meta property="og:description" content="屈子泪，离歌起，力拔山兮">
 <meta property="og:locale" content="en">
@@ -116,7 +116,7 @@
 
 
 
-  <link rel="canonical" href="http://mrzzcn.github.io/"/>
+  <link rel="canonical" href="https://mrzzcn.github.io/"/>
 
 
 
@@ -377,7 +377,188 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2019/04/27/host-yapi-with-heroku-and-mongodb-atlas/"/>
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2019/07/20/react-redux-1-connect/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jack"/>
+      <meta itemprop="description" content="屈子泪，离歌起，力拔山兮"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随笔"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/20/react-redux-1-connect/" class="post-title-link" itemprop="url">Untitled</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: Jul 20 2019 15:15:29" itemprop="dateCreated datePublished" datetime="2019-07-20T15:15:29+08:00">Jul 20 2019</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: Jul 22 2019 23:02:51" itemprop="dateModified" datetime="2019-07-22T23:02:51+08:00">Jul 22 2019</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="0-缘起"><a href="#0-缘起" class="headerlink" title="0 缘起"></a>0 缘起</h1><p>之前有次面试被问起 <code>connect</code> 方法是如何把 store 的 state 传递到 Component 的，当时没有回答到点子上，拖到现在终于强迫自己坐下来搞清楚这个事情。</p>
+<h1 id="1-API"><a href="#1-API" class="headerlink" title="1 API"></a>1 API</h1><p>先看看官方文档关于 connect() 方法的说明：<a href="https://react-redux.js.org/api/connect" target="_blank" rel="noopener">Connect · React Redux</a> | <a href="https://cn.redux.js.org/docs/react-redux/api.html#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options" target="_blank" rel="noopener">中文版</a></p>
+<p>大概翻译一下：<br><code>connect()</code> 方法把一个 React 组件绑定到 Redux store 上。<br>方法返回一个新组件，新组件包含所有传入组件需要从 store 上获取的数据或者向 store 触发的方法<br>connect 不会修改组件，而是返回一个新的<strong>绑定组件</strong>包裹原组件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params">mapStateToProps?, mapDispatchToProps?, mergeProps?, options?</span>)</span></span><br></pre></td></tr></table></figure></p>
+<p>更多内容请参考官方文档。</p>
+<h1 id="2-实现"><a href="#2-实现" class="headerlink" title="2 实现"></a>2 实现</h1><p>那么 <code>connect</code> 底层是如何实现的呢？<br>通过源码看一下:<br>源代码位于：<a href="https://github.com/reduxjs/react-redux/blob/master/src/connect/connect.js#L104" target="_blank" rel="noopener">github.com/reduxjs/react-redux/connect/connect.js</a><br>这里对 <code>connect</code> 的参数进行了一个默认值处理，没有涉及核心功能，继续调用了 <code>connectAdvanced</code>：<br><a href="https://github.com/reduxjs/react-redux/blob/master/src/components/connectAdvanced.js#L47" target="_blank" rel="noopener">github.com/reduxjs/react-redux/components/connectAdvanced.js</a><br>方法很长，前面都是对一些过期选项的警告和一些值的处理。核心代码位于 <code>ConnectFunction</code> 内部<br>第 171 行处 获取到当前使用的 context<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ContextToUse = useMemo(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// Users may optionally pass in a custom context instance to use instead of our ReactReduxContext.</span></span><br><span class="line">    <span class="comment">// Memoize the check that determines which context instance we should use.</span></span><br><span class="line">    <span class="keyword">return</span> propsContext &amp;&amp;</span><br><span class="line">      propsContext.Consumer &amp;&amp;</span><br><span class="line">      isContextConsumer(<span class="xml"><span class="tag">&lt;<span class="name">propsContext.Consumer</span> /&gt;</span>)</span></span><br><span class="line"><span class="xml">      ? propsContext</span></span><br><span class="line"><span class="xml">      : Context</span></span><br><span class="line"><span class="xml">  &#125;, [propsContext, Context])</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">// Retrieve the store and ancestor subscription via context, if available</span></span><br><span class="line"><span class="xml">const contextValue = useContext(ContextToUse)</span></span><br></pre></td></tr></table></figure></p>
+<p>第 385 行处，执行了具体的 <code>connect</code> 过程<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// Now that all that's done, we can finally try to actually render the child component.</span></span><br><span class="line">  <span class="comment">// We memoize the elements for the rendered child component as an optimization.</span></span><br><span class="line">  <span class="keyword">const</span> renderedWrappedComponent = useMemo(</span><br><span class="line">    () =&gt; <span class="xml"><span class="tag">&lt;<span class="name">WrappedComponent</span> &#123;<span class="attr">...actualChildProps</span>&#125; <span class="attr">ref</span>=<span class="string">&#123;forwardedRef&#125;</span> /&gt;</span>,</span></span><br><span class="line"><span class="xml">    [forwardedRef, WrappedComponent, actualChildProps]</span></span><br><span class="line"><span class="xml">  )</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">  // If React sees the exact same element reference as last time, it bails out of re-rendering</span></span><br><span class="line"><span class="xml">  // that child, same as if it was wrapped in React.memo() or returned false from shouldComponentUpdate.</span></span><br><span class="line"><span class="xml">  const renderedChild = useMemo(() =&gt; &#123;</span></span><br><span class="line"><span class="xml">    if (shouldHandleStateChanges) &#123;</span></span><br><span class="line"><span class="xml">      // If this component is subscribed to store updates, we need to pass its own</span></span><br><span class="line"><span class="xml">      // subscription instance down to our descendants. That means rendering the same</span></span><br><span class="line"><span class="xml">      // Context instance, and putting a different value into the context.</span></span><br><span class="line"><span class="xml">      return (</span></span><br><span class="line">        &lt;ContextToUse.Provider value=&#123;overriddenContextValue&#125;&gt;</span><br><span class="line">          &#123;renderedWrappedComponent&#125;</span><br><span class="line">        &lt;/ContextToUse.Provider&gt;</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return renderedWrappedComponent</span><br><span class="line">  &#125;, [ContextToUse, renderedWrappedComponent, overriddenContextValue])</span><br><span class="line"></span><br><span class="line">  return renderedChild</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，其实底层就是使用 Context.Provider 向被绑定的组件注入需要的属性(包括 mapStateToProps 和 dispatch相关方法)。</p>
+<h1 id="3-踩坑"><a href="#3-踩坑" class="headerlink" title="3 踩坑"></a>3 踩坑</h1><p>最初看代码的时候搞不清楚 <code>ReactReduxContext</code> 这个 Context 是如何跟外层的 store 关联起来的，因为漏掉了最外层的 <code>Provider</code> <a href="https://react-redux.js.org/api/provider" target="_blank" rel="noopener">https://react-redux.js.org/api/provider</a>。<br>react-redux 提供两种引用方式：在最外层使用 react-redux 提供的 Provider 组件包裹 或者 每次 connect 时候都要传入 context 实例的方式，以此保证唯一数据源。</p>
+<h1 id="4-其他"><a href="#4-其他" class="headerlink" title="4 其他"></a>4 其他</h1><p>整个实现过程非常巧妙，包括一些默认值的处理，一些方法重载的实现，非常值得参考。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2019/04/27/host-yapi-with-heroku-and-mongodb-atlas/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jack"/>
@@ -572,7 +753,204 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2019/01/11/HTTP-Security-Headers/"/>
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2019/04/13/Front-end-Development-1/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jack"/>
+      <meta itemprop="description" content="屈子泪，离歌起，力拔山兮"/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="随笔"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/13/Front-end-Development-1/" class="post-title-link" itemprop="url">前端开发基础之 - Webpack</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: Apr 13 2019 21:06:03" itemprop="dateCreated datePublished" datetime="2019-04-13T21:06:03+08:00">Apr 13 2019</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: May 4 2019 16:23:44" itemprop="dateModified" datetime="2019-05-04T16:23:44+08:00">May 4 2019</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Technology/" itemprop="url" rel="index"><span itemprop="name">Technology</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Technology/Front-end/" itemprop="url" rel="index"><span itemprop="name">Front-end</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>参考：<a href="https://www.valentinog.com/blog/webpack-tutorial" target="_blank" rel="noopener">https://www.valentinog.com/blog/webpack-tutorial</a></p>
+</blockquote>
+<p>Webpack 4 更新不短时间了，简单做个整理。</p>
+<blockquote>
+<p>本文演示基于仓库：<a href="https://github.com/mrzzcn/webpack-playground" target="_blank" rel="noopener">https://github.com/mrzzcn/webpack-playground</a></p>
+</blockquote>
+<h2 id="1-完全-0-配置的模块化打包利器"><a href="#1-完全-0-配置的模块化打包利器" class="headerlink" title="1. 完全 0 配置的模块化打包利器"></a>1. 完全 0 配置的模块化打包利器</h2><p>习惯了<code>webpack.config.js</code>的同学可能不知道这个变化，Webpack 4 默认不需要配置文件了，在一个没有配置文件的项目里运行<code>webpack</code>会默认查找<code>./src/index.js</code>，输出到<code>./dist/main.js</code>。内部使用了一个默认配置文件主要内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="string">'./src/index.js'</span>,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(<span class="string">'dist'</span>),</span><br><span class="line">    filename: <span class="string">'main.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>源码：<a href="https://github.com/mrzzcn/webpack-playground/tree/step-0" target="_blank" rel="noopener">https://github.com/mrzzcn/webpack-playground/tree/step-0</a></p>
+</blockquote>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/13/Front-end-Development-1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2019/01/11/HTTP-Security-Headers/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jack"/>
@@ -763,7 +1141,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2018/12/28/bfc/"/>
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2018/12/28/bfc/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jack"/>
@@ -966,7 +1344,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2018/11/17/arrow-function-in-class-property/"/>
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2018/11/17/arrow-function-in-class-property/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jack"/>
@@ -1153,7 +1531,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2018/04/27/core-js-es/"/>
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2018/04/27/core-js-es/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jack"/>
@@ -1351,7 +1729,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2015/11/17/git-flow/"/>
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2015/11/17/git-flow/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jack"/>
@@ -1538,7 +1916,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mrzzcn.github.io/2015/05/24/JavaScript-The-Good-Parts/"/>
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2015/05/24/JavaScript-The-Good-Parts/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jack"/>
@@ -1744,7 +2122,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1777,7 +2155,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -1840,7 +2222,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">23</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2093,6 +2483,10 @@
 
   
   
+    
+      
+    
+      
     
       
     
