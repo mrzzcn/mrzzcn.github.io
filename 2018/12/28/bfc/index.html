@@ -1,502 +1,335 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="en">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css"/>
-
-<link rel="stylesheet" href="/css/main.css?v=7.0.1"/>
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/imgs/avatar.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/imgs/favicon.png?v=7.0.1">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/imgs/favicon.png?v=7.0.1">
-
-
-  <link rel="mask-icon" href="/imgs/logo.png?v=7.0.1" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Pisces',
-    version: '7.0.1',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="1. 含义 块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。     下列方式会创建块格式化上下文：  根元素或包含根元素的元素 浮动元素（元素的 float 不是 none） 绝对定位元素（元素的 position 为 absolute 或 fixed） 行内">
-<meta name="keywords" content="随笔,CSS,BFC">
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mrzzcn.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="1. 含义 块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。     下列方式会创建块格式化上下文：  根元素或包含根元素的元素 浮动元素（元素的 float 不是 none） 绝对定位元素（元素的 position 为 absolute 或 fixed） 行内">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BFC">
 <meta property="og:url" content="https://mrzzcn.github.io/2018/12/28/bfc/index.html">
 <meta property="og:site_name" content="随笔">
 <meta property="og:description" content="1. 含义 块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。     下列方式会创建块格式化上下文：  根元素或包含根元素的元素 浮动元素（元素的 float 不是 none） 绝对定位元素（元素的 position 为 absolute 或 fixed） 行内">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-04-27T01:43:35.929Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-12-28T02:19:51.000Z">
+<meta property="article:modified_time" content="2020-12-02T14:52:29.730Z">
+<meta property="article:author" content="Jack">
+<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="BFC">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BFC">
-<meta name="twitter:description" content="1. 含义 块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。     下列方式会创建块格式化上下文：  根元素或包含根元素的元素 浮动元素（元素的 float 不是 none） 绝对定位元素（元素的 position 为 absolute 或 fixed） 行内">
 
 
-
-  <link rel="alternate" href="/atom.xml" title="随笔" type="application/atom+xml"/>
-
+<link rel="canonical" href="https://mrzzcn.github.io/2018/12/28/bfc/">
 
 
-
-  <link rel="canonical" href="https://mrzzcn.github.io/2018/12/28/bfc/"/>
-
-
-
-<script id="page.configurations">
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
   };
 </script>
-
-  <title>BFC | 随笔</title>
+<title>BFC | 随笔</title>
   
-
-
-
-
-
-
-
-
-
 
 
 
   <noscript>
   <style>
-  .use-motion .motion-element,
-  .use-motion .brand,
+  body { margin-top: 2rem; }
+
   .use-motion .menu-item,
-  .sidebar-inner,
+  .use-motion .sidebar,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header {
+    visibility: visible;
+  }
 
-  .use-motion .logo,
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
   .use-motion .site-title,
-  .use-motion .site-subtitle {
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
   </style>
 </noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta custom-logo">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">随笔</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
-    
-      
-        <h1 class="site-subtitle" itemprop="description">技术 | 生活</h1>
-      
-    
-    
-      <a>
-        <img class="custom-logo-image" src="/imgs/logo.png" alt="随笔"/>
-      </a>
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">随笔</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">技术 | 生活</p>
+      <img class="custom-logo-image" src="/images/logo.png" alt="随笔">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
   </div>
 </div>
 
 
 
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br/>About</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-schedule">
+        <li class="menu-item menu-item-schedule">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br/>Schedule</a>
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
 
   </li>
-
-      
-      
-    </ul>
-  
-
-  
-
-  
+  </ul>
 </nav>
 
 
 
-  
-
-
 
 </div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%90%AB%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">1. 含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%BA%94%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">2. 应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E4%B8%80%E4%B8%AA-BFC-%E4%B8%8B%E5%A4%96%E8%BE%B9%E8%B7%9D%E4%BC%9A%E5%8F%91%E7%94%9F%E6%8A%98%E5%8F%A0"><span class="nav-number">2.1.</span> <span class="nav-text">同一个 BFC 下外边距会发生折叠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E6%B5%AE%E5%8A%A8%E7%9A%84%E5%85%83%E7%B4%A0%EF%BC%88%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">包含浮动的元素（清除浮动）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E6%AD%A2%E5%85%83%E7%B4%A0%E8%A2%AB%E6%B5%AE%E5%8A%A8%E5%85%83%E7%B4%A0%E8%A6%86%E7%9B%96"><span class="nav-number">2.3.</span> <span class="nav-text">阻止元素被浮动元素覆盖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-FC"><span class="nav-number">3.</span> <span class="nav-text">3. (*)FC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jack</p>
+  <div class="site-description" itemprop="description">屈子泪，离歌起，力拔山兮</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mrzzcn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mrzzcn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:mrzzcn@gmail.com" title="E-Mail → mailto:mrzzcn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/zzspace" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;zzspace" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/mrzhangzhen" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;mrzhangzhen" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
-  
-  
-  
-  
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/mrzzcn" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
 
   
 
-  <a href="https://github.com/mrzzcn" class="github-corner" title="Follow me" aria-label="Follow me" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
 
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-            
-
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
+<div class="post-block">
   
   
 
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2018/12/28/bfc/"/>
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://mrzzcn.github.io/2018/12/28/bfc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jack"/>
-      <meta itemprop="description" content="屈子泪，离歌起，力拔山兮"/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jack">
+      <meta itemprop="description" content="屈子泪，离歌起，力拔山兮">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="随笔"/>
+      <meta itemprop="name" content="随笔">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BFC
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: Dec 28 2018 10:19:51" itemprop="dateCreated datePublished" datetime="2018-12-28T10:19:51+08:00">Dec 28 2018</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: Dec 2 2020 22:52:29" itemprop="dateModified" datetime="2020-12-02T22:52:29+08:00">Dec 2 2020</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Technology/" itemprop="url" rel="index"><span itemprop="name">Technology</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Technology/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+        </span>
     </span>
 
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">BFC
-
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: Dec 28 2018 10:19:51" itemprop="dateCreated datePublished" datetime="2018-12-28T10:19:51+08:00">Dec 28 2018</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: Apr 27 2019 09:43:35" itemprop="dateModified" datetime="2019-04-27T09:43:35+08:00">Apr 27 2019</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Technology/" itemprop="url" rel="index"><span itemprop="name">Technology</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Technology/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
+  
+</div>
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
         <h2 id="1-含义"><a href="#1-含义" class="headerlink" title="1. 含义"></a>1. 含义</h2><blockquote>
 <p>块格式化上下文（Block Formatting Context，BFC） 是Web页面的可视化CSS渲染的一部分，是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。   </p>
 </blockquote>
@@ -515,483 +348,114 @@
 <li>弹性元素（display为 flex 或 inline-flex元素的直接子元素）</li>
 <li>网格元素（display为 grid 或 inline-grid 元素的直接子元素）</li>
 <li>多列容器（元素的 column-count 或 column-width 不为 auto，包括 column-count 为 1）<br>column-span 为 all 的元素始终会创建一个新的BFC，即使该元素没有包裹在一个多列容器中（标准变更，Chrome bug）。<a id="more"></a>
+
 </li>
 </ul>
 <p>块格式化上下文包含创建它的元素内部的所有内容.</p>
-<p>块格式化上下文对浮动定位（参见 float）与清除浮动（参见 clear）都很重要。浮动定位和清除浮动时只会应用于同一个BFC内的元素。浮动不会影响其它BFC中元素的布局，而清除浮动只能清除同一BFC中在它前面的元素的浮动。外边距折叠（Margin collapsing）也只会发生在属于同一BFC的块级元素之间。<br>– MDN <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">戳此查看</a></p>
-<h2 id="2-应用"><a href="#2-应用" class="headerlink" title="2. 应用"></a>2. 应用</h2><h3 id="同一个-BFC-下外边距会发生折叠"><a href="#同一个-BFC-下外边距会发生折叠" class="headerlink" title="同一个 BFC 下外边距会发生折叠"></a>同一个 BFC 下外边距会发生折叠</h3><iframe height="265" scrolling="no" title="aPyrXL" src="//codepen.io/zhangzhen/embed/aPyrXL/?height=265&theme-id=dark&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/zhangzhen/pen/aPyrXL/" target="_blank" rel="noopener">aPyrXL</a> by Jack (<a href="https://codepen.io/zhangzhen" target="_blank" rel="noopener">@zhangzhen</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>   
+<p>块格式化上下文对浮动定位（参见 float）与清除浮动（参见 clear）都很重要。浮动定位和清除浮动时只会应用于同一个BFC内的元素。浮动不会影响其它BFC中元素的布局，而清除浮动只能清除同一BFC中在它前面的元素的浮动。外边距折叠（Margin collapsing）也只会发生在属于同一BFC的块级元素之间。<br>– MDN <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context">戳此查看</a></p>
+<h2 id="2-应用"><a href="#2-应用" class="headerlink" title="2. 应用"></a>2. 应用</h2><h3 id="同一个-BFC-下外边距会发生折叠"><a href="#同一个-BFC-下外边距会发生折叠" class="headerlink" title="同一个 BFC 下外边距会发生折叠"></a>同一个 BFC 下外边距会发生折叠</h3><iframe height="265" scrolling="no" title="aPyrXL" src="//codepen.io/zhangzhen/embed/aPyrXL/?height=265&theme-id=dark&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen/pen/aPyrXL/">aPyrXL</a> by Jack (<a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen">@zhangzhen</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.
+</iframe>   
 
 <p>前两个元素（1-1 1-2）位于同一个BFC内部，所以上边元素的 <code>margin-bottom</code> 与 下边元素的 <code>margin-top</code> 发生坍缩，坍缩的结果为最终的 <code>margin</code> 值是两者中的较大值.<br>后两个元素（2-1 3-1）位于不同BFC内部，所以没有发生坍缩，最终 <code>margin</code> 等于上边元素的 <code>margin-bottom</code> 加下边元素的 <code>margin-top</code></p>
-<h3 id="包含浮动的元素（清除浮动）"><a href="#包含浮动的元素（清除浮动）" class="headerlink" title="包含浮动的元素（清除浮动）"></a>包含浮动的元素（清除浮动）</h3><iframe height="265" scrolling="no" title=" BFC 可以包含浮动的元素（清除浮动）" src="//codepen.io/zhangzhen/embed/ebEwNR/?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/zhangzhen/pen/ebEwNR/" target="_blank" rel="noopener"> BFC 可以包含浮动的元素（清除浮动）</a> by Jack (<a href="https://codepen.io/zhangzhen" target="_blank" rel="noopener">@zhangzhen</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
+<h3 id="包含浮动的元素（清除浮动）"><a href="#包含浮动的元素（清除浮动）" class="headerlink" title="包含浮动的元素（清除浮动）"></a>包含浮动的元素（清除浮动）</h3><iframe height="265" scrolling="no" title=" BFC 可以包含浮动的元素（清除浮动）" src="//codepen.io/zhangzhen/embed/ebEwNR/?height=265&theme-id=dark&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen/pen/ebEwNR/"> BFC 可以包含浮动的元素（清除浮动）</a> by Jack (<a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen">@zhangzhen</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.
+</iframe>
 
 <p>上方容器Parent 1内元素浮动，脱离了文档流，所以容器只剩下 2px 的边距高度。如果使触发容器的 BFC，那么容器将会包裹着浮动元素（Parent 2）。</p>
-<h3 id="阻止元素被浮动元素覆盖"><a href="#阻止元素被浮动元素覆盖" class="headerlink" title="阻止元素被浮动元素覆盖"></a>阻止元素被浮动元素覆盖</h3><iframe height="406" scrolling="no" title="BFC 可以阻止元素被浮动元素覆盖" src="//codepen.io/zhangzhen/embed/YdrKzx/?height=406&theme-id=dark&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a href="https://codepen.io/zhangzhen/pen/YdrKzx/" target="_blank" rel="noopener">BFC 可以阻止元素被浮动元素覆盖</a> by Jack (<a href="https://codepen.io/zhangzhen" target="_blank" rel="noopener">@zhangzhen</a>) on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.<br></iframe>
+<h3 id="阻止元素被浮动元素覆盖"><a href="#阻止元素被浮动元素覆盖" class="headerlink" title="阻止元素被浮动元素覆盖"></a>阻止元素被浮动元素覆盖</h3><iframe height="406" scrolling="no" title="BFC 可以阻止元素被浮动元素覆盖" src="//codepen.io/zhangzhen/embed/YdrKzx/?height=406&theme-id=dark&default-tab=css,result" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%;">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen/pen/YdrKzx/">BFC 可以阻止元素被浮动元素覆盖</a> by Jack (<a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen">@zhangzhen</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.
+</iframe>
 
 <p>上边的布局是一个常见的图文混排的模版，但是有时候我们不需要这种布局，我们期望一个左右布局的页面，如下边的Demo展示的这种，就可以通过触发下面元素的 <strong>BFC</strong> 来实现。</p>
 <p>这个方法来实现两列自适应布局，左边宽度固定，右边的内容自适应宽度(去掉上面右边内容的宽度)。</p>
 <p>当然也可以用来实现多列布局，也是相当方便。</p>
 <h2 id="3-FC"><a href="#3-FC" class="headerlink" title="3. (*)FC"></a>3. (*)FC</h2><p>FC 即 <code>Formatting Contexts</code>，包含：IFC、BFC、GFC 与 FFC 。FC是网页CSS视觉渲染的一部分，用于决定盒子模型的布局、其子元素将如何定位以及和其他元素的关系和相互作用。<br>其中：IFC（Inline Formatting Contexts）与 BFC（Block Formatting Contexts）是 CSS2.1 规范中引进的；后面两个是 CSS3 新增规范，GFC（GridLayout Formatting Contexts）以及 FFC（Flex Formatting Context）。</p>
-<p>关于这几个 FC 的具体区别可参考：<a href="https://github.com/chokcoco/iCSS/issues/5" target="_blank" rel="noopener">https://github.com/chokcoco/iCSS/issues/5</a></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://zhuanlan.zhihu.com/p/25321647" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25321647</a><br><a href="https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/" target="_blank" rel="noopener">https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/</a><br><a href="https://github.com/chokcoco/iCSS/issues/5" target="_blank" rel="noopener">https://github.com/chokcoco/iCSS/issues/5</a></p>
+<p>关于这几个 FC 的具体区别可参考：<a target="_blank" rel="noopener" href="https://github.com/chokcoco/iCSS/issues/5">https://github.com/chokcoco/iCSS/issues/5</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25321647">https://zhuanlan.zhihu.com/p/25321647</a><br><a target="_blank" rel="noopener" href="https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/">https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/</a><br><a target="_blank" rel="noopener" href="https://github.com/chokcoco/iCSS/issues/5">https://github.com/chokcoco/iCSS/issues/5</a></p>
 
-      
     </div>
 
     
-
     
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-      <div>
-        
-
-
-
-
-  
-
-
-
-<ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>Post author:  </strong>Jack</li>
-  <li class="post-copyright-link">
-    <strong>Post link: </strong>
-    
-    <a href="https://mrzzcn.github.io/2018/12/28/bfc/" title="BFC">https://mrzzcn.github.io/2018/12/28/bfc/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.</li>
-</ul>
-
-      </div>
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/随笔/" rel="tag"># 随笔</a>
-          
-            <a href="/tags/CSS/" rel="tag"># CSS</a>
-          
-            <a href="/tags/BFC/" rel="tag"># BFC</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/11/17/arrow-function-in-class-property/" rel="next" title="[翻译]Arrow Functions in Class Properties Might Not Be As Great As We Think">
-                <i class="fa fa-chevron-left"></i> [翻译]Arrow Functions in Class Properties Might Not Be As Great As We Think
-              </a>
-            
+          <div class="post-tags">
+              <a href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag"># 随笔</a>
+              <a href="/tags/CSS/" rel="tag"># CSS</a>
+              <a href="/tags/BFC/" rel="tag"># BFC</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/11/HTTP-Security-Headers/" rel="prev" title="强化网站安全 - 第一篇：安全相关的Headers (Hardening Website Security – Part 1: HTTP Security Headers)">
-                强化网站安全 - 第一篇：安全相关的Headers (Hardening Website Security – Part 1: HTTP Security Headers) <i class="fa fa-chevron-right"></i>
-              </a>
-            
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/11/17/arrow-function-in-class-property/" rel="prev" title="[翻译]Arrow Functions in Class Properties Might Not Be As Great As We Think">
+                  <i class="fa fa-chevron-left"></i> [翻译]Arrow Functions in Class Properties Might Not Be As Great As We Think
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/01/11/HTTP-Security-Headers/" rel="next" title="强化网站安全 - 第一篇：安全相关的Headers (Hardening Website Security – Part 1: HTTP Security Headers)">
+                  强化网站安全 - 第一篇：安全相关的Headers (Hardening Website Security – Part 1: HTTP Security Headers) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-        </div>
-      
-
-      
-      
     </footer>
-  </div>
-  
-  
-  
   </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-    <div class="comments" id="gitalk-container">
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Jack</p>
-              <div class="site-description motion-element" itemprop="description">屈子泪，离歌起，力拔山兮</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">9</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                      <a href="/categories/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">10</span>
-                    <span class="site-state-item-name">categories</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">27</span>
-                    <span class="site-state-item-name">tags</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="https://github.com/mrzzcn" title="GitHub &rarr; https://github.com/mrzzcn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="mailto:mrzzcn@gmail.com" title="E-Mail &rarr; mailto:mrzzcn@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="https://weibo.com/zzspace" title="Weibo &rarr; https://weibo.com/zzspace" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="https://twitter.com/mrzhangzhen" title="Twitter &rarr; https://twitter.com/mrzhangzhen" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
-                </span>
-              
-            </div>
-          
-
-          
-             <div class="cc-license motion-element" itemprop="license">
-              
-              
-                
-              
-              
-              
-              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"/></a>
-             </div>
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </div>
-
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-含义"><span class="nav-number">1.</span> <span class="nav-text">1. 含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-应用"><span class="nav-number">2.</span> <span class="nav-text">2. 应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同一个-BFC-下外边距会发生折叠"><span class="nav-number">2.1.</span> <span class="nav-text">同一个 BFC 下外边距会发生折叠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含浮动的元素（清除浮动）"><span class="nav-number">2.2.</span> <span class="nav-text">包含浮动的元素（清除浮动）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻止元素被浮动元素覆盖"><span class="nav-number">2.3.</span> <span class="nav-text">阻止元素被浮动元素覆盖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-FC"><span class="nav-number">3.</span> <span class="nav-text">3. (*)FC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Jack</span>
-
-  
-
-  
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.0.1</div>
 
 
 
 
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
-  </div>
-
-  
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
 
 
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jack</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
 
+    </div>
+  </footer>
 
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
 
 
@@ -1000,136 +464,31 @@
 
 
   
-  <script src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/src/utils.js?v=7.0.1"></script>
-
-  <script src="/js/src/motion.js?v=7.0.1"></script>
 
 
 
-  
-  
-
-
-  <script src="/js/src/affix.js?v=7.0.1"></script>
-
-  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
 
 
 
-  
-  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
-<script src="/js/src/post-details.js?v=7.0.1"></script>
-
-
-
-  
-
-
-  <script src="/js/src/next-boot.js?v=7.0.1"></script>
-
-
-  
-
-  
-
-  
-
-  
-
-
-  
-    
-
-<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-
-
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css"/>
-
-
-
-<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.css">
 
 <script>
-  var gitalk = new Gitalk({
-    clientID: 'da5de7af34d6bdf63448',
-    clientSecret: 'bc5cee0c5330f2930f633a7228aff5d73103f869',
-    repo: 'mrzzcn.github.io',
-    owner: 'mrzzcn',
-    admin: ['mrzzcn'],
-    id: md5(location.pathname),
-    
-      language: window.navigator.language || window.navigator.userLanguage,
-    
-    distractionFreeMode: 'true'
-  });
-  gitalk.render('gitalk-container');
+NexT.utils.loadComments('#gitalk-container', () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.7.0/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'da5de7af34d6bdf63448',
+      clientSecret: 'bc5cee0c5330f2930f633a7228aff5d73103f869',
+      repo        : 'mrzzcn.github.io',
+      owner       : 'mrzzcn',
+      admin       : ['mrzzcn'],
+      id          : '938ac65bc4638db1f3247da2bd177ca8',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
 </script>
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-  
-
-  
-  
-
-  
-
-
-  
-
-  
-
-  
-  <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>
