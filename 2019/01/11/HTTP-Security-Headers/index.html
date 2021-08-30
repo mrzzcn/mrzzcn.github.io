@@ -31,7 +31,7 @@
 <meta property="og:description" content="原文：Hardening Website Security – Part 1: HTTP Security Headers  简介感觉每周都会出现新的个人信息被盗事件，原因是某一家公司网站被黑了。    大部分攻击都是通过社会工程学诱骗某些用户主动提交一些信息，黑客借助这些信息获取更高权限并最终获取个人资料。    如果你想要在21世纪运营一个安全的网站，你需要遵循一些安全准则，我会写一个系列专">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-01-11T07:40:44.000Z">
-<meta property="article:modified_time" content="2020-12-02T15:05:50.661Z">
+<meta property="article:modified_time" content="2021-08-30T10:32:19.014Z">
 <meta property="article:author" content="Jack">
 <meta property="article:tag" content="Web">
 <meta property="article:tag" content="HTTP">
@@ -305,7 +305,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: Dec 2 2020 23:05:50" itemprop="dateModified" datetime="2020-12-02T23:05:50+08:00">Dec 2 2020</time>
+        <time title="Modified: Aug 30 2021 18:32:19" itemprop="dateModified" datetime="2021-08-30T18:32:19+08:00">Aug 30 2021</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -347,7 +347,7 @@
 <p>第一篇我们先来看一下安全相关的 Header有哪些，他们的作用以及如何设置他们。</p>
 <h2 id="配置服务器"><a href="#配置服务器" class="headerlink" title="配置服务器"></a>配置服务器</h2><p>网站托管环境不同，设置Header的方法不同。下面是一些常用的比较流行的服务器软件/编程语言的Header配置方法。</p>
 <h3 id="Apache-Web-Server"><a href="#Apache-Web-Server" class="headerlink" title="Apache Web Server"></a>Apache Web Server</h3><p>Apache的虚拟主机配置文件位于<code>.htaccess</code> 或<code>.httpd.conf</code>，使用以下指令设置：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute"><span class="nomarkup">Header</span></span> set<span class="meta"> [HeaderName] [HeaderValue]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Header</span> set <span class="selector-attr">[HeaderName]</span> <span class="selector-attr">[HeaderValue]</span></span><br></pre></td></tr></table></figure>
 <h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><p>在Nginx 的<code>config</code> 目录下，打开<code>nginx.conf</code>，添加以下内容：</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header [HeaderName] <span class="string">&quot;[HeaderValue]&quot;</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <h3 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h3><p>(译者加: 在每个虚拟主机目录下)打开<code>Web.Config</code>文件，在<code>&lt;system.webServer&gt;</code>节点下添加<code>&lt;customHeaders&gt;</code>节点：</p>
@@ -450,7 +450,7 @@
 <h3 id="ASP-NET"><a href="#ASP-NET" class="headerlink" title="ASP.NET"></a><span>ASP.NET</span></h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_BeginRequest</span>(<span class="params"><span class="built_in">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    HttpContext.Current.Response.AddHeader(<span class="string">&quot;X-Frame-Options&quot;</span>, <span class="string">&quot;SAMEORIGIN&quot;</span>);</span><br><span class="line">    HttpContext.Current.Response.AddHeader(<span class="string">&quot;X-XSS-Protection&quot;</span>, <span class="string">&quot;1; mode=block&quot;</span>);</span><br><span class="line">    HttpContext.Current.Response.AddHeader(<span class="string">&quot;X-Content-Type-Options&quot;</span>, <span class="string">&quot;nosniff&quot;</span>);</span><br><span class="line">    HttpContext.Current.Response.AddHeader(<span class="string">&quot;Strict-Transport-Security&quot;</span>, <span class="string">&quot;max-age=31536000; includeSubDomains&quot;</span>);</span><br><span class="line">    HttpContext.Current.Response.AddHeader(<span class="string">&quot;Content-Security-Policy&quot;</span>, </span><br><span class="line">      <span class="string">&quot;default-src &#x27;none&#x27;; script-src &#x27;self&#x27; https://js.stripe.com; connect-src &#x27;self&#x27; https://api.stripe.com; img-src &#x27;self&#x27; data:; style-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; https://fonts.googleapis.com; font-src &#x27;self&#x27; https://fonts.gstatic.com; frame-src &#x27;self&#x27; https://*.stripe.com https://stripe.com; frame-ancestors &#x27;none&#x27;; report-uri /csp_report.php; block-all-mixed-content;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="下集预告"><a href="#下集预告" class="headerlink" title="下集预告"></a>下集预告</h2><p>请先阅读有关使用 HSTS Preloading 的<a target="_blank" rel="noopener" href="https://int64software.com/blog/2018/11/10/hardening-website-security-part-1a-hsts-preloading/">附录</a>，然后继续阅读第二篇：<a target="_blank" rel="noopener" href="https://int64software.com/blog/2018/11/13/hardening-website-security-part-2-user-session-cookie-security/">Cookie攻防实战</a>。<br>关注作者：<a target="_blank" rel="noopener" href="https://twitter.com/Int64Software">Twitter</a><br>译者微薄：<a target="_blank" rel="noopener" href="https://weibo.com/zzspace">新浪微博</a></p>
-<h2 id="刊误"><a href="#刊误" class="headerlink" title="刊误"></a>刊误</h2><p>如果你有任何意见或建议，请联系：<a href="mailto:&#115;&#x75;&#x70;&#112;&#111;&#114;&#x74;&#64;&#105;&#110;&#116;&#x36;&#52;&#x73;&#x6f;&#x66;&#116;&#x77;&#97;&#114;&#x65;&#x2e;&#99;&#111;&#109;">&#115;&#x75;&#x70;&#112;&#111;&#114;&#x74;&#64;&#105;&#110;&#116;&#x36;&#52;&#x73;&#x6f;&#x66;&#116;&#x77;&#97;&#114;&#x65;&#x2e;&#99;&#111;&#109;</a> 。<br>译者邮箱：<a href="mailto:mrzzcn+blog@gmail.com">mrzzcn@gmail.com</a> 。</p>
+<h2 id="刊误"><a href="#刊误" class="headerlink" title="刊误"></a>刊误</h2><p>如果你有任何意见或建议，请联系：<a href="mailto:&#115;&#x75;&#112;&#x70;&#x6f;&#114;&#x74;&#x40;&#x69;&#110;&#116;&#x36;&#x34;&#x73;&#x6f;&#x66;&#x74;&#119;&#x61;&#114;&#x65;&#x2e;&#x63;&#x6f;&#109;">&#115;&#x75;&#112;&#x70;&#x6f;&#114;&#x74;&#x40;&#x69;&#110;&#116;&#x36;&#x34;&#x73;&#x6f;&#x66;&#x74;&#119;&#x61;&#114;&#x65;&#x2e;&#x63;&#x6f;&#109;</a> 。<br>译者邮箱：<a href="mailto:mrzzcn+blog@gmail.com">mrzzcn@gmail.com</a> 。</p>
 
     </div>
 
@@ -521,7 +521,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

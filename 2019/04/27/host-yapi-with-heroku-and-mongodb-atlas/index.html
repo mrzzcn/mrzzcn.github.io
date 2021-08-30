@@ -31,7 +31,7 @@
 <meta property="og:description" content="0. 背景前端开发过程中，与后端约定接口标准之后，双方同时开始开发，可能会出现后端没有 Ready，但是前端已经需要使用接口的情况。这时候就需要 Fake 接口。有几种方式：     优点 缺点    1. 项目中使用 Fake Promise 方便快速 不能模拟真实网络请求，对代码有侵入，需要在 webpack 中配置路径替换或手动切换文件   2. 项目中使用 mockjs 等服务端方式启动自">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-04-27T01:56:48.000Z">
-<meta property="article:modified_time" content="2020-12-02T15:05:50.661Z">
+<meta property="article:modified_time" content="2021-08-30T10:32:19.014Z">
 <meta property="article:author" content="Jack">
 <meta property="article:tag" content="Heroku">
 <meta property="article:tag" content="mongoDB">
@@ -305,7 +305,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: Dec 2 2020 23:05:50" itemprop="dateModified" datetime="2020-12-02T23:05:50+08:00">Dec 2 2020</time>
+        <time title="Modified: Aug 30 2021 18:32:19" itemprop="dateModified" datetime="2021-08-30T18:32:19+08:00">Aug 30 2021</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -376,7 +376,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd yapi</span></span><br><span class="line"><span class="comment"># 修改 package.json -&gt; engines -&gt; node 为：&quot;&gt;= 7.6.0 &lt; 11&quot;</span></span><br><span class="line"><span class="comment"># 因为项目使用了 node-sass. node-sass 的 linux 支持到此版本。</span></span><br><span class="line">heroku git:remote -a yapi-demo</span><br><span class="line">git push heroku dev:master --force</span><br><span class="line"><span class="comment"># 等待服务器处理完成即可</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="3-4-验证部署"><a href="#3-4-验证部署" class="headerlink" title="3.4 验证部署"></a>3.4 验证部署</h3><p>打开 <a target="_blank" rel="noopener" href="https://yapi-demo.herokuapp.com/">https://yapi-demo.herokuapp.com/</a>（当然，你要替换成你自己的应用名）。<br>首次加载可能很慢，有一个超大JS，需要加载一分钟左右（团队需要解决下）。<br>使用先前的用户名和密码登录即可体验。</p>
-<p>你也可以使用 <a href="mailto:&#100;&#101;&#x6d;&#x6f;&#64;&#x64;&#101;&#109;&#111;&#46;&#x63;&#111;&#x6d;">&#100;&#101;&#x6d;&#x6f;&#64;&#x64;&#101;&#109;&#111;&#46;&#x63;&#111;&#x6d;</a>/demo 登录<a target="_blank" rel="noopener" href="https://yapi-demo.herokuapp.com/">YApi Demo</a> 体验，请勿修改密码。</p>
+<p>你也可以使用 <a href="mailto:&#100;&#x65;&#109;&#x6f;&#64;&#100;&#x65;&#109;&#111;&#46;&#99;&#111;&#x6d;">&#100;&#x65;&#109;&#x6f;&#64;&#100;&#x65;&#109;&#111;&#46;&#99;&#111;&#x6d;</a>/demo 登录<a target="_blank" rel="noopener" href="https://yapi-demo.herokuapp.com/">YApi Demo</a> 体验，请勿修改密码。</p>
 
     </div>
 
@@ -447,7 +447,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
