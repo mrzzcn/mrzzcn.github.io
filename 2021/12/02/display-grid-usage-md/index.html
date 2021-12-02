@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"mrzzcn.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.1.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="1. display: flex Flexible Box 模型，通常被称为 flexbox，是一种一维的布局模型。它给 flexbox 的子元素之间提供了强大的空间分布和对齐能力。 说 flexbox 是一种一维的布局，是因为一个 flexbox 一次只能处理一个维度上的元素布局，一行或者一列。作为对比的是另外一个二维布局 CSS Grid Layout，可以同时处理行和列上的布局。  想要了解">
+<meta name="description" content="display: flex Flexible Box 模型，通常被称为 flexbox，是一种一维的布局模型。它给 flexbox 的子元素之间提供了强大的空间分布和对齐能力。 说 flexbox 是一种一维的布局，是因为一个 flexbox 一次只能处理一个维度上的元素布局，一行或者一列。作为对比的是另外一个二维布局 CSS Grid Layout，可以同时处理行和列上的布局。  想要了解更多关">
 <meta property="og:type" content="article">
 <meta property="og:title" content="display: grid 指北">
 <meta property="og:url" content="https://mrzzcn.github.io/2021/12/02/display-grid-usage-md/index.html">
 <meta property="og:site_name" content="随笔">
-<meta property="og:description" content="1. display: flex Flexible Box 模型，通常被称为 flexbox，是一种一维的布局模型。它给 flexbox 的子元素之间提供了强大的空间分布和对齐能力。 说 flexbox 是一种一维的布局，是因为一个 flexbox 一次只能处理一个维度上的元素布局，一行或者一列。作为对比的是另外一个二维布局 CSS Grid Layout，可以同时处理行和列上的布局。  想要了解">
+<meta property="og:description" content="display: flex Flexible Box 模型，通常被称为 flexbox，是一种一维的布局模型。它给 flexbox 的子元素之间提供了强大的空间分布和对齐能力。 说 flexbox 是一种一维的布局，是因为一个 flexbox 一次只能处理一个维度上的元素布局，一行或者一列。作为对比的是另外一个二维布局 CSS Grid Layout，可以同时处理行和列上的布局。  想要了解更多关">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://r.gamelife.pro/can-i-use-grid.png">
 <meta property="og:image" content="https://css-tricks.com/wp-content/uploads/2018/11/template-columns-rows-01.svg">
@@ -55,7 +55,7 @@
 <meta property="og:image" content="https://r.gamelife.pro/css-grid-template-rows-masonry.png">
 <meta property="og:image" content="https://r.gamelife.pro/grid-demo-assignment.png">
 <meta property="article:published_time" content="2021-12-02T13:53:50.000Z">
-<meta property="article:modified_time" content="2021-12-02T14:04:59.491Z">
+<meta property="article:modified_time" content="2021-12-02T14:08:24.668Z">
 <meta property="article:author" content="Jack">
 <meta property="article:tag" content="display: grid">
 <meta property="article:tag" content="layout">
@@ -212,7 +212,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-display-flex"><span class="nav-number">1.</span> <span class="nav-text">1. display: flex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80%EF%BC%9ACSS-Grid-Layout"><span class="nav-number">2.</span> <span class="nav-text">2. 网格布局：CSS Grid Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%94%AF%E6%8C%81%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">3. 浏览器支持性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%9C%AF%E8%AF%AD"><span class="nav-number">4.</span> <span class="nav-text">4. 术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%BD%91%E6%A0%BC%E5%AE%B9%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">5. 网格容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%BD%91%E6%A0%BC%E5%85%83%E7%B4%A0"><span class="nav-number">6.</span> <span class="nav-text">6. 网格元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%85%B6%E4%BB%96"><span class="nav-number">7.</span> <span class="nav-text">7. 其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">8.</span> <span class="nav-text">6. 参考链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%8C%91%E6%88%98"><span class="nav-number">9.</span> <span class="nav-text">7. 挑战</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#display-flex"><span class="nav-number">1.</span> <span class="nav-text">display: flex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80%EF%BC%9ACSS-Grid-Layout"><span class="nav-number">2.</span> <span class="nav-text">网格布局：CSS Grid Layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%94%AF%E6%8C%81%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">浏览器支持性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AF%E8%AF%AD"><span class="nav-number">4.</span> <span class="nav-text">术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E6%A0%BC%E5%AE%B9%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">网格容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E6%A0%BC%E5%85%83%E7%B4%A0"><span class="nav-number">6.</span> <span class="nav-text">网格元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%91%E6%88%98"><span class="nav-number">9.</span> <span class="nav-text">挑战</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -322,7 +322,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: Dec 2 2021 21:53:50 / Modified: 22:04:59" itemprop="dateCreated datePublished" datetime="2021-12-02T21:53:50+08:00">Dec 2 2021</time>
+      <time title="Created: Dec 2 2021 21:53:50 / Modified: 22:08:24" itemprop="dateCreated datePublished" datetime="2021-12-02T21:53:50+08:00">Dec 2 2021</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -348,7 +348,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="1-display-flex"><a href="#1-display-flex" class="headerlink" title="1. display: flex"></a>1. display: flex</h2><blockquote>
+        <h2 id="display-flex"><a href="#display-flex" class="headerlink" title="display: flex"></a>display: flex</h2><blockquote>
 <p>Flexible Box 模型，通常被称为 flexbox，是一种一维的布局模型。它给 flexbox 的子元素之间提供了强大的空间分布和对齐能力。</p>
 <p>说 flexbox 是一种一维的布局，是因为一个 flexbox 一次只能处理一个维度上的元素布局，一行或者一列。作为对比的是另外一个二维布局 CSS Grid Layout，可以同时处理行和列上的布局。</p>
 </blockquote>
@@ -359,19 +359,19 @@
 <li><a target="_blank" rel="noopener" href="https://flexboxfroggy.com/">FLEXBOX FROGGY</a></li>
 <li><a target="_blank" rel="noopener" href="https://mastery.games/flexboxzombies/">Flexbox Zombies</a></li>
 </ul>
-<h2 id="2-网格布局：CSS-Grid-Layout"><a href="#2-网格布局：CSS-Grid-Layout" class="headerlink" title="2. 网格布局：CSS Grid Layout"></a>2. 网格布局：CSS Grid Layout</h2><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout">CSS Grid Layout</a>(中文翻译：网格布局，也叫 CSS Grid 或 Grid) 引入了二维网格布局系统，可用于布局页面主要的区域布局或小型组件。</p>
+<h2 id="网格布局：CSS-Grid-Layout"><a href="#网格布局：CSS-Grid-Layout" class="headerlink" title="网格布局：CSS Grid Layout"></a>网格布局：CSS Grid Layout</h2><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout">CSS Grid Layout</a>(中文翻译：网格布局，也叫 CSS Grid 或 Grid) 引入了二维网格布局系统，可用于布局页面主要的区域布局或小型组件。</p>
 <p>网格是一组相交的水平线和垂直线，它定义了网格的列和行。</p>
 <a id="more"></a>
 
-<h2 id="3-浏览器支持性"><a href="#3-浏览器支持性" class="headerlink" title="3. 浏览器支持性"></a>3. 浏览器支持性</h2><p><img src="https://r.gamelife.pro/can-i-use-grid.png" alt="Can I use display: grid"><br><a target="_blank" rel="noopener" href="https://caniuse.com/?search=grid">详细支持情况</a></p>
-<h2 id="4-术语"><a href="#4-术语" class="headerlink" title="4. 术语"></a>4. 术语</h2><ul>
+<h2 id="浏览器支持性"><a href="#浏览器支持性" class="headerlink" title="浏览器支持性"></a>浏览器支持性</h2><p><img src="https://r.gamelife.pro/can-i-use-grid.png" alt="Can I use display: grid"><br><a target="_blank" rel="noopener" href="https://caniuse.com/?search=grid">详细支持情况</a></p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
 <li>Grid Container：网格容器</li>
 <li>Grid Item/Cell：网格元素</li>
 <li>Grid Line：网格线</li>
 <li>Grid Track：一行或一列</li>
 <li>Grid Area: 一块区域（多个Cell组成的矩形）</li>
 </ul>
-<h2 id="5-网格容器"><a href="#5-网格容器" class="headerlink" title="5. 网格容器"></a>5. 网格容器</h2><ol>
+<h2 id="网格容器"><a href="#网格容器" class="headerlink" title="网格容器"></a>网格容器</h2><ol>
 <li><p>在元素上声明 <code>display：grid</code> 或 <code>display：inline-grid</code> 可以创建一个网格容器。一旦这样做，这个元素的所有直系子元素将成为网格元素。</p>
 <iframe height="350" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/zhangzhen/embed/OJxLMMy?default-tab=" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
 See the Pen &lt;a href="https://codepen.io/zhangzhen/pen/OJxLMMy"&gt;
@@ -540,7 +540,7 @@ on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.
 </ul>
 </li>
 </ol>
-<h2 id="6-网格元素"><a href="#6-网格元素" class="headerlink" title="6. 网格元素"></a>6. 网格元素</h2><blockquote>
+<h2 id="网格元素"><a href="#网格元素" class="headerlink" title="网格元素"></a>网格元素</h2><blockquote>
 <p><code>float</code>, <code>display: inline-block</code>, <code>display: table-cell</code>, <code>vertical-align</code> and <code>column-*</code> 不对网格元素生效。</p>
 </blockquote>
 <ol>
@@ -577,7 +577,7 @@ on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.
 <li><p><code>justify-self</code> <code>align-self</code> <code>place-self</code><br> 与网格容器的 <code>justify-items</code>, <code>align-items</code>, <code>place-items</code> 属性作用相同，但是仅作用于单一网格元素，不再赘述。</p>
 </li>
 </ol>
-<h2 id="7-其他"><a href="#7-其他" class="headerlink" title="7. 其他"></a>7. 其他</h2><ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
 <li><p><code>fr</code><br> 前面已经提过一次，在网格布局中经常会用到 <code>fr</code> 单位，<a target="_blank" rel="noopener" href="https://css-tricks.com/introduction-fr-css-unit/">了解更多</a>，用来表示<strong>占据剩余空间的一部分</strong>。例如：</p>
  <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grid-template-<span class="attribute">columns</span>: <span class="number">1</span>fr <span class="number">3</span>fr;</span><br></pre></td></tr></table></figure>
 <p> 表示这两列宽度分别为 25% 75%。</p>
@@ -669,8 +669,8 @@ on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.
 </ul>
 </li>
 </ol>
-<h2 id="6-参考链接"><a href="#6-参考链接" class="headerlink" title="6. 参考链接"></a>6. 参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.zhangxinxu.com/wordpress/2018/11/display-grid-css-css3/">写给自己看的display: grid布局教程</a>, by 张鑫旭<br><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html">CSS Grid 网格布局教程</a>, by 阮一峰<br><a target="_blank" rel="noopener" href="https://css-tricks.com/snippets/css/complete-guide-grid/">A Complete Guide to Grid</a>, by Chris House</p>
-<h2 id="7-挑战"><a href="#7-挑战" class="headerlink" title="7. 挑战"></a>7. 挑战</h2><p><a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen/pen/wvrvvMQ">https://codepen.io/zhangzhen/pen/wvrvvMQ</a><br>fork 并完成代码，使页面布局尽可能长得像下图：<br><img src="https://r.gamelife.pro/grid-demo-assignment.png" alt="Assignment"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.zhangxinxu.com/wordpress/2018/11/display-grid-css-css3/">写给自己看的display: grid布局教程</a>, by 张鑫旭<br><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html">CSS Grid 网格布局教程</a>, by 阮一峰<br><a target="_blank" rel="noopener" href="https://css-tricks.com/snippets/css/complete-guide-grid/">A Complete Guide to Grid</a>, by Chris House</p>
+<h2 id="挑战"><a href="#挑战" class="headerlink" title="挑战"></a>挑战</h2><p><a target="_blank" rel="noopener" href="https://codepen.io/zhangzhen/pen/wvrvvMQ">https://codepen.io/zhangzhen/pen/wvrvvMQ</a><br>fork 并完成代码，使页面布局尽可能长得像下图：<br><img src="https://r.gamelife.pro/grid-demo-assignment.png" alt="Assignment"></p>
 
     </div>
 
